@@ -155,18 +155,45 @@
     .measure-modal-title { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
     .measure-modal-close { width: 40px; height: 40px; border-radius: var(--radius-full); background: var(--gray-100); border: none; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .measure-modal-body { flex: 1; overflow-y: auto; }
-    /* Room Diagram with Door Markers */
+    /* Room diagram with door/window markers + seam lines */
     .room-diagram-section { display: none; margin-bottom: 16px; }
     .room-diagram-section.show { display: block; }
     .room-diagram-title { font-size: 14px; font-weight: 600; color: var(--gray-700); margin-bottom: 8px; }
     .room-diagram-container { background: #f8fafc; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 12px; text-align: center; }
-    #room-diagram-svg { width: 100%; max-width: 300px; height: 200px; }
+    #room-diagram-svg { width: 100%; max-width: 320px; height: 220px; }
     .room-diagram-actions { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
     .door-add-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: var(--radius-md); border: 1px solid var(--gray-300); background: white; font-size: 14px; font-weight: 500; cursor: pointer; color: var(--gray-700); transition: all 0.2s; }
     .door-add-btn:hover { background: var(--gray-50); }
     .door-add-btn.active { background: #e53e3e; color: white; border-color: #e53e3e; }
     .door-hint { display: none; font-size: 13px; color: #e53e3e; font-weight: 500; }
     .door-hint.show { display: inline; }
+    /* Window Marker Styles */
+    .window-add-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: var(--radius-md); border: 1px solid var(--gray-300); background: white; font-size: 14px; font-weight: 500; cursor: pointer; color: var(--gray-700); transition: all 0.2s; }
+    .window-add-btn:hover { background: var(--gray-50); }
+    .window-add-btn.active { background: #2563eb; color: white; border-color: #2563eb; }
+    /* Wall Picker (for precise door/window placement) */
+    .wall-picker { display: none; background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 10px 12px; margin-top: 8px; }
+    .wall-picker.show { display: block; }
+    .wall-picker-label { font-size: 12px; font-weight: 600; color: var(--gray-600); margin-bottom: 6px; }
+    .wall-picker-btns { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+    .wall-picker-btn { padding: 6px 14px; border-radius: var(--radius-full); border: 1px solid var(--gray-300); background: white; font-size: 13px; cursor: pointer; transition: all 0.2s; }
+    .wall-picker-btn:hover { background: var(--gray-100); }
+    .wall-picker-btn.selected { background: var(--purple-600); color: white; border-color: var(--purple-600); }
+    .wall-dist-row { display: none; align-items: center; gap: 8px; }
+    .wall-dist-row.show { display: flex; }
+    .wall-dist-input { width: 80px; padding: 8px; font-size: 14px; font-weight: 600; text-align: center; border: 2px solid var(--gray-200); border-radius: var(--radius-sm); font-family: inherit; }
+    .wall-dist-input:focus { outline: none; border-color: var(--purple-600); box-shadow: 0 0 0 3px var(--purple-100); }
+    .wall-dist-label { font-size: 13px; color: var(--gray-600); }
+    .wall-dist-confirm { padding: 8px 16px; border-radius: var(--radius-md); border: none; background: var(--green-500); color: white; font-size: 13px; font-weight: 600; cursor: pointer; }
+    /* Seam Conflict Warning */
+    .seam-conflict-warning { display: none; margin-top: 10px; padding: 10px 14px; border-radius: var(--radius-md); font-size: 13px; line-height: 1.4; }
+    .seam-conflict-warning.show { display: block; }
+    .seam-conflict-warning.warning { background: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; }
+    .seam-conflict-warning.ok { background: #f0fdf4; border: 1px solid #86efac; color: #166534; }
+    .seam-conflict-suggest { margin-top: 6px; }
+    .seam-conflict-suggest button { padding: 4px 12px; border-radius: var(--radius-full); border: 1px solid #991b1b; background: white; color: #991b1b; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: 4px; }
+    .seam-conflict-suggest button:hover { background: #fef2f2; }
+    /* Measure Product Reminder */
     .measure-product-reminder { background: linear-gradient(135deg, #fef3c7, #fde68a); border: 2px solid var(--amber-500); border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 12px; text-align: center; transition: all 0.3s; }
     .measure-product-reminder.has-dimensions { background: linear-gradient(135deg, #dcfce7, #bbf7d0); border-color: var(--green-500); }
     .measure-product-reminder .reminder-label { font-size: 11px; font-weight: 600; color: #92400e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
@@ -896,7 +923,7 @@
         </div>
         <div class="stair-landing-hint" id="stair-landing-hint" style="display: none;">Measure the stair landings here and the stairs below.</div><div class="measure-section"><div class="measure-section-title dimension-title" id="dimension-section-title"><span class="icon">&#128208;</span> Dimensions (Width x Length)</div><div class="dimension-grid" id="dimension-grid"></div><div class="dimension-footer"><button type="button" class="add-dimension-btn" id="add-dimension-btn"><span>+</span> Add Another Area</button><div class="grand-total-row" id="grand-total-row"><span class="grand-total-value" id="grand-total-sf">0 SF</span></div></div></div>
         <!-- Room Diagram with Door Markers -->
-            <div class="room-diagram-section" id="room-diagram-section"><div class="room-diagram-title">Room Diagram</div><div class="room-diagram-container" id="room-diagram-container"><svg id="room-diagram-svg" viewBox="0 0 300 200"></svg></div><div class="room-diagram-actions"><button type="button" class="door-add-btn" id="door-add-btn"><span class="icon">&#10133;</span> <span>&#128682; Add Door</span></button><div class="door-hint" id="door-hint">Tap a wall to place a door</div></div></div>
+            <div class="room-diagram-section" id="room-diagram-section"><div class="room-diagram-title">Room Diagram</div><div class="room-diagram-container" id="room-diagram-container"><svg id="room-diagram-svg" viewBox="0 0 320 220"></svg></div><div class="room-diagram-actions"><button type="button" class="door-add-btn" id="door-add-btn">&#128682; Add Door</button><button type="button" class="window-add-btn" id="window-add-btn">&#129695; Add Window</button></div><div class="wall-picker" id="wall-picker"><div class="wall-picker-label" id="wall-picker-label">Select wall:</div><div class="wall-picker-btns"><button type="button" class="wall-picker-btn" data-wall="top">Top</button><button type="button" class="wall-picker-btn" data-wall="bottom">Bottom</button><button type="button" class="wall-picker-btn" data-wall="left">Left</button><button type="button" class="wall-picker-btn" data-wall="right">Right</button></div><div class="wall-dist-row" id="wall-dist-row"><span class="wall-dist-label" id="wall-dist-label">Distance from left (ft):</span><input type="number" class="wall-dist-input" id="wall-dist-input" placeholder="0" inputmode="decimal" step="0.1" min="0"><button type="button" class="wall-dist-confirm" id="wall-dist-confirm">Place</button></div></div><div class="seam-conflict-warning" id="seam-conflict-warning"></div></div>
 	<div class="carpet-direction-section" id="carpet-direction-section"><div class="carpet-direction-title">Carpet Direction (relative to room length)</div><div class="carpet-direction-options"><button type="button" class="carpet-direction-btn selected" data-direction="lengthwise"><span class="icon">&#8597;&#65039;</span><span>Lengthwise</span></button><button type="button" class="carpet-direction-btn" data-direction="widthwise"><span class="icon">&#8596;&#65039;</span><span>Widthwise</span></button></div></div>
         <div class="carpet-calc-preview" id="carpet-calc-preview"><div class="carpet-calc-title"><span>&#129518;</span> Carpet Calculation</div><div class="carpet-calc-grid"><div class="carpet-calc-item"><div class="carpet-calc-value" id="calc-strips">0</div><div class="carpet-calc-label">Strips</div></div><div class="carpet-calc-item"><div class="carpet-calc-value" id="calc-cut-length">0'</div><div class="carpet-calc-label">Cut Length</div></div><div class="carpet-calc-item"><div class="carpet-calc-value" id="calc-linear-ft">0</div><div class="carpet-calc-label">Linear Ft</div></div><div class="carpet-calc-item"><div class="carpet-calc-value" id="calc-sq-yds">0</div><div class="carpet-calc-label">Sq Yds</div></div></div><div class="carpet-calc-formula" id="carpet-calc-formula">--</div></div>
         <div class="measure-section stair-section" id="stair-section"><div class="measure-section-title" id="stair-section-title"><span class="icon">&#129692;</span> Stairs</div><div class="stair-entries" id="stair-entries"><div class="stair-entry" data-stair-idx="0"><div class="stair-input-group"><div class="stair-input-label">Count</div><input type="number" class="stair-input stair-count-input" placeholder="0" min="0"></div><div class="stair-input-group"><div class="stair-input-label">Width (in)</div><input type="number" class="stair-input stair-width-input" placeholder="36" min="0"></div><div class="stair-input-group"><div class="stair-input-label">Tread (in)</div><input type="number" class="stair-input stair-tread-input" placeholder="10" min="0"></div><div class="stair-input-group"><div class="stair-input-label">Riser (in)</div><input type="number" class="stair-input stair-riser-input" placeholder="7" min="0"></div><button type="button" class="stair-remove" data-stair-idx="0">x</button></div></div><div class="stair-btn-row" style="display: flex; gap: 10px; margin-top: 8px;"><button type="button" class="add-stair-btn" id="add-stair-btn" style="flex:1;margin-top:0;"><span>+</span> Add Another Stair</button><button type="button" class="add-stair-btn" id="add-landing-btn" style="flex:1;margin-top:0;background:var(--amber-50);border-color:var(--amber-400);color:#92400e;"><span>+</span> Add Mid Landing</button></div><div class="stair-landing-entries" id="stair-landing-entries" style="display:none;margin-top:12px;"></div><div class="stair-nose-section" id="stair-nose-section" style="display: none;"><div class="stair-nose-row"><span class="stair-nose-label">Stair Nose Length</span><div class="stair-nose-input-wrap"><input type="number" class="stair-input" id="stair-nose-length-input" value="78" min="1" oninput="updateStairNoseCalc()"><span class="stair-nose-unit">in</span></div></div><div class="stair-nose-row"><span class="stair-nose-label">Stair Nose Needed</span><span class="stair-nose-count" id="stair-nose-count">0 pcs</span></div></div><div class="stair-calc-result" id="stair-calc-result" style="display: none;"><div class="stair-calc-value" id="stair-sy-result">0 SY</div><div class="stair-calc-label" id="stair-calc-label">Stairs Carpet Total</div></div></div>
@@ -1262,9 +1289,17 @@ var currentLandingEntries    = [];     // Mid landing entries for current room
 var stairAutoAdvanceTimer    = null;   // Timer for stair field auto-advance
 
 // -- Door Marker State -------------------------------------------------------
-var currentDoorMarkers       = [];     // Array of { wall, position } for current room
+var currentDoorMarkers       = [];     // Array of { wall, positionFt } for current room
 var doorPlacementMode        = false;  // True when user is placing a door on diagram
-var DOOR_SEAM_BUFFER_FT      = 0.5;   // 6-inch buffer zone around doors for seam avoidance
+var DOOR_SEAM_BUFFER_FT      = 1.0;   // 1-foot buffer zone around doors for seam avoidance
+
+// -- Window Marker State -----------------------------------------------------
+var currentWindowMarkers     = [];     // Array of { wall, positionFt } for current room
+var windowPlacementMode      = false;  // True when user is placing a window on diagram
+
+// -- Wall Picker State -------------------------------------------------------
+var wallPickerTarget         = null;   // "door" or "window"
+var wallPickerWall           = null;   // Currently selected wall in picker
 
 // -- Carpet Mode State -------------------------------------------------------
 var isCarpetMode             = false;  // True when primary item is carpet
@@ -2243,13 +2278,15 @@ function onClosetOptionSelected(areaId, areaLabel, closetOpt) {
  */
 function openMeasureModal(areaId, areaLabel) {
   currentMeasureRoom = { id: areaId, label: areaLabel };
+  var modal = document.getElementById("measure-modal");
+  if (modal) modal.classList.add("show");
   var existing = roomMeasurements[areaId];
 
-  // &#8213;&#8213;&#8213; Determine stair mode early -----------------------
+  // ------------------- Determine stair mode early -----------------------
   var primaryCat = currentPrimaryItem ? currentPrimaryItem.category : null;
   isHardSurfaceStairMode = isHardSurfaceFlooringCategory(primaryCat);
 
-  // &#8213;&#8213;&#8213; Restore or initialize state -----------------------
+  // --------------------- Restore or initialize state -----------------------
   currentDimensionRows = existing && existing.dimensions
     ? JSON.parse(JSON.stringify(existing.dimensions))
     : [{ width: "", length: "" }];
@@ -2269,13 +2306,32 @@ function openMeasureModal(areaId, areaLabel) {
   currentCarpetDirection = (existing && existing.carpetDirection) || "lengthwise";
   currentStairDemoType = (existing && existing.stairDemoType) || "none";
   currentDoorMarkers = (existing && existing.doors) ? JSON.parse(JSON.stringify(existing.doors)) : [];
+  currentWindowMarkers = (existing && existing.windows) ? JSON.parse(JSON.stringify(existing.windows)) : [];
+  // Migrate old ratio-based door positions to feet-based
+  var migW = toNum((currentDimensionRows[0] && currentDimensionRows[0].width) || 0);
+  var migL = toNum((currentDimensionRows[0] && currentDimensionRows[0].length) || 0);
+  currentDoorMarkers.forEach(function(d) {
+    if (d.position !== undefined && d.positionFt === undefined) {
+      d.positionFt = (d.wall === "top" || d.wall === "bottom") ? d.position * migW : d.position * migL;
+      delete d.position;
+    }
+  });
+
 
   // -- Modal title -------------------------------------------------------
   var titleEl = document.getElementById("measure-modal-title");
   if (titleEl) titleEl.innerHTML = "&#128207; " + escHtml(areaLabel);
 
   // -- Product reminder --------------------------------------------------
-  updateMeasureProductReminder();
+  var reminder = document.getElementById("measure-product-reminder");
+  if (reminder) {
+    if (currentPrimaryItem) {
+      reminder.textContent = currentPrimaryItem.desc + " (" + (currentPrimaryItem.sku || "") + ")";
+      reminder.style.display = "block";
+    } else {
+      reminder.style.display = "none";
+    }
+  }
 
   // -- Dimension grid ----------------------------------------------------
   renderDimensionRows();
@@ -2333,240 +2389,222 @@ function openMeasureModal(areaId, areaLabel) {
   if (bathroomSection) bathroomSection.style.display = isBathroom ? "block" : "none";
   if (appliancesSection) appliancesSection.style.display = isKitchen ? "block" : "none";
 
-  // -- Room diagram with door markers ------------------------------------
+  // -- Room diagram with door/window markers + seam lines ----------------
   var roomDiagramSection = document.getElementById("room-diagram-section");
   if (roomDiagramSection) {
     roomDiagramSection.classList.add("show");
+    closeWallPicker();
     renderRoomDiagram();
   }
+}
 
-  // -- Carpet direction --------------------------------------------------
-  var carpetDirectionSection = document.getElementById("carpet-direction-section");
-  if (carpetDirectionSection) {
-    carpetDirectionSection.classList.toggle("show", isCarpetMode);
+/** Calculate seam positions in feet from left edge (lengthwise) or top edge (widthwise). */
+function calculateRoomSeamPositions() {
+  if (!isCarpetMode) return [];
+  var w = toNum((currentDimensionRows[0] && currentDimensionRows[0].width) || 0);
+  var l = toNum((currentDimensionRows[0] && currentDimensionRows[0].length) || 0);
+  if (w <= 0 || l <= 0) return [];
+  var widthToCover = (currentCarpetDirection === "lengthwise") ? w : l;
+  var strips = Math.ceil(widthToCover / carpetWidth);
+  var seams = [];
+  for (var s = 1; s < strips; s++) {
+    seams.push({ positionFt: s * carpetWidth, seamNumber: s });
   }
-  document.querySelectorAll(".carpet-direction-btn").forEach(function(btn) {
-    btn.classList.toggle("selected", btn.dataset.direction === currentCarpetDirection);
-  });
+  return seams;
+}
 
-  // ——— Stair section - show for all flooring types ------------------------
-  var stairSection = document.getElementById("stair-section");
-  if (stairSection) stairSection.classList.add("show");
-
-  var stairTitleEl = document.getElementById("stair-section-title");
-  if (stairTitleEl) {
-    stairTitleEl.innerHTML = isHardSurfaceStairMode
-      ? '<span class="icon">&#129692;</span> ' + getStairLabelForCategory(primaryCat)
-      : '<span class="icon">&#129692;</span> Stairs';
-  }
-
-  // Hard surface stair-specific UI
-  var stairLandingHint = document.getElementById("stair-landing-hint");
-  if (stairLandingHint) stairLandingHint.style.display = isHardSurfaceStairMode ? "block" : "none";
-
-  var stairNoseSection = document.getElementById("stair-nose-section");
-  if (stairNoseSection) stairNoseSection.style.display = isHardSurfaceStairMode ? "block" : "none";
-
-  if (isHardSurfaceStairMode) {
-    var noseLengthInput = document.getElementById("stair-nose-length-input");
-    if (noseLengthInput) {
-      if (existing && existing.stairNoseLength) {
-        noseLengthInput.value = existing.stairNoseLength;
-      } else {
-        var cat = (primaryCat || "").toLowerCase();
-        noseLengthInput.value = cat.indexOf("hardwood") !== -1
-          ? STAIR_NOSE_DEFAULTS.HARDWOOD
-          : STAIR_NOSE_DEFAULTS.OTHER;
+/** Check for conflicts between seam positions and door positions. */
+function checkSeamDoorConflicts(seams) {
+  var conflicts = [];
+  if (!seams || seams.length === 0 || currentDoorMarkers.length === 0) return conflicts;
+  var w = toNum((currentDimensionRows[0] && currentDimensionRows[0].width) || 0);
+  var l = toNum((currentDimensionRows[0] && currentDimensionRows[0].length) || 0);
+  if (w <= 0 || l <= 0) return conflicts;
+  // Lengthwise: seams are vertical &#8594; conflict with doors on top/bottom
+  // Widthwise: seams are horizontal &#8594; conflict with doors on left/right
+  var conflictWalls = (currentCarpetDirection === "lengthwise") ? ["top", "bottom"] : ["left", "right"];
+  currentDoorMarkers.forEach(function(door, di) {
+    if (conflictWalls.indexOf(door.wall) === -1) return;
+    var doorFt = door.positionFt;
+    seams.forEach(function(seam) {
+      if (Math.abs(seam.positionFt - doorFt) <= DOOR_SEAM_BUFFER_FT) {
+        conflicts.push({ doorIndex: di, doorWall: door.wall, doorFt: doorFt, seamNumber: seam.seamNumber, seamFt: seam.positionFt });
       }
-    }
-  }
-
-// -- Molding visibility ------------------------------------------------
-  var moldingsSection = document.getElementById("moldings-section");
-  var moldingsSectionTitle = document.querySelector("#moldings-section .measure-section-title");
-  
-  // Hide moldings entirely for carpet and tile
-  var hideMoldings = isCarpetCategory(primaryCat) || isTileCategory(primaryCat);
-  if (moldingsSection) {
-    moldingsSection.style.display = hideMoldings ? "none" : "";
-  }
-  
-  // For non-carpet/tile: show all moldings normally
-  if (!hideMoldings) {
-    document.querySelectorAll(".molding-item").forEach(function(item) {
-      item.style.display = "";
     });
-    if (moldingsSectionTitle) {
-      moldingsSectionTitle.innerHTML = '<span class="icon">&#128207;</span> Needed Moldings';
-    }
-  }
-
-  // -- Demo section (always visible) -------------------------------------
-  var demoKeywordsSection = document.getElementById("demo-keywords");
-  if (demoKeywordsSection) {
-    demoKeywordsSection.parentElement.style.display = "";
-  }
-
-// -- Render stair entries and calculations -----------------------------
-  renderStairEntries();
-  renderLandingEntries();
-  if (isCarpetMode) {
-    updateCarpetCalcPreview();
-    updateStairsCalc();
-  }
-
-  // -- Show modal --------------------------------------------------------
-  var modal = document.getElementById("measure-modal");
-  if (modal) modal.classList.add("show");
-
-  // Auto-focus first dimension input
-  setTimeout(function() {
-    var firstInput = document.querySelector("#dimension-grid .dimension-input");
-    if (firstInput) {
-      firstInput.focus();
-      firstInput.select();
-    }
-  }, 350);
+  });
+  return conflicts;
 }
 
-/** Close the measurement modal. */
-function closeMeasureModal() {
-  var modal = document.getElementById("measure-modal");
-  if (modal) modal.classList.remove("show");
-  currentMeasureRoom = null;
-}
-
-/** Update the product reminder bar shown at the top of the measure modal. */
-function updateMeasureProductReminder() {
-  var el = function(id) { return document.getElementById(id); };
-
-  if (currentPrimaryItem) {
-    if (el("reminder-product-name")) el("reminder-product-name").textContent = currentPrimaryItem.desc || "(no description)";
-    if (el("reminder-product-sku")) el("reminder-product-sku").textContent = "SKU: " + (currentPrimaryItem.sku || "--");
-    if (el("reminder-product-rate")) el("reminder-product-rate").textContent = "Rate: $" + (currentPrimaryItem.rate ? toNum(currentPrimaryItem.rate).toFixed(2) : "--");
-    if (el("reminder-product-uom")) el("reminder-product-uom").textContent = "UOM: " + (currentPrimaryItem.uom || "--");
-
-    var carpetSpecsRow = el("carpet-specs-row");
-    if (isCarpetMode) {
-      if (carpetSpecsRow) carpetSpecsRow.classList.add("show");
-      if (el("modal-carpet-width")) {
-        var displayFt = Math.floor(carpetWidth);
-        var displayIn = Math.round((carpetWidth - displayFt) * 12);
-        el("modal-carpet-width").textContent = displayIn > 0 ? displayFt + "'" + displayIn + '"' : displayFt + "'";
-      }
-      if (el("modal-carpet-pm")) el("modal-carpet-pm").textContent = patternMatchLength > 0 ? patternMatchLength + '"' : "None";
-    } else {
-      if (carpetSpecsRow) carpetSpecsRow.classList.remove("show");
-    }
+/** Update the seam conflict warning message below the diagram. */
+function updateSeamConflictWarning() {
+  var warningEl = document.getElementById("seam-conflict-warning");
+  if (!warningEl) return;
+  if (!isCarpetMode || currentDoorMarkers.length === 0) { warningEl.classList.remove("show"); return; }
+  var seams = calculateRoomSeamPositions();
+  if (seams.length === 0) { warningEl.classList.remove("show"); return; }
+  var conflicts = checkSeamDoorConflicts(seams);
+  if (conflicts.length > 0) {
+    var html = "";
+    conflicts.forEach(function(c) {
+      html += "\u26a0\ufe0f Seam at " + c.seamFt.toFixed(1) + "' is within " + DOOR_SEAM_BUFFER_FT + "' of door on " + c.doorWall + " wall (" + c.doorFt.toFixed(1) + "')<br>";
+    });
+    var otherDir = (currentCarpetDirection === "lengthwise") ? "widthwise" : "lengthwise";
+    html += '<div class="seam-conflict-suggest">Try switching carpet direction to avoid: <button type="button" onclick="switchDirectionFromWarning(\'' + otherDir + '\')">Switch to ' + otherDir + '</button></div>';
+    warningEl.innerHTML = html;
+    warningEl.className = "seam-conflict-warning show warning";
+  } else {
+    warningEl.innerHTML = "\u2705 No seam-door conflicts \u2014 seam placement looks good.";
+    warningEl.className = "seam-conflict-warning show ok";
   }
 }
 
-// -- Room Diagram with Door Markers ------------------------------------------
-/** Render an SVG room diagram showing walls and door markers. */
+/** Switch carpet direction from the conflict warning button. */
+function switchDirectionFromWarning(dir) {
+  currentCarpetDirection = dir;
+  document.querySelectorAll(".carpet-direction-btn").forEach(function(btn) {
+    btn.classList.toggle("selected", btn.dataset.direction === dir);
+  });
+  if (isCarpetMode) { updateCarpetCalcPreview(); updateStairsCalc(); }
+  renderRoomDiagram();
+}
+
+/** Render SVG room diagram with walls, door/window markers, and seam lines. */
 function renderRoomDiagram() {
   var svg = document.getElementById("room-diagram-svg");
   if (!svg) return;
-  
   var w = toNum((currentDimensionRows[0] && currentDimensionRows[0].width) || 0);
   var l = toNum((currentDimensionRows[0] && currentDimensionRows[0].length) || 0);
   if (w <= 0 || l <= 0) {
-    svg.innerHTML = '<text x="150" y="105" text-anchor="middle" fill="#999" font-size="14">Enter dimensions to see room diagram</text>';
+    svg.innerHTML = '<text x="160" y="110" text-anchor="middle" fill="#999" font-size="14">Enter dimensions to see room diagram</text>';
+    updateSeamConflictWarning();
     return;
   }
-  
-  var maxW = 260;
-  var maxH = 160;
+  var maxW = 270, maxH = 170;
   var scale = Math.min(maxW / w, maxH / l);
-  var rw = w * scale;
-  var rh = l * scale;
-  var rx = (300 - rw) / 2;
-  var ry = (200 - rh) / 2;
-  
+  var rw = w * scale, rh = l * scale;
+  var rx = (320 - rw) / 2, ry = (220 - rh) / 2;
   var html = '';
-  html += '<rect x="' + rx + '" y="' + ry + '" width="' + rw + '" height="' + rh
-    + '" fill="#f0f4ff" stroke="#2c5282" stroke-width="2" rx="2"/>';
-  html += '<text x="' + (rx + rw / 2) + '" y="' + (ry - 8) + '" text-anchor="middle" fill="#2c5282" font-size="11">'
-    + w.toFixed(1) + '\'</text>';
-  html += '<text x="' + (rx + rw / 2) + '" y="' + (ry + rh + 16) + '" text-anchor="middle" fill="#2c5282" font-size="11">'
-    + w.toFixed(1) + '\'</text>';
-  html += '<text x="' + (rx - 8) + '" y="' + (ry + rh / 2) + '" text-anchor="middle" fill="#2c5282" font-size="11" transform="rotate(-90,' + (rx - 8) + ',' + (ry + rh / 2) + ')">'
-    + l.toFixed(1) + '\'</text>';
-  html += '<text x="' + (rx + rw + 8) + '" y="' + (ry + rh / 2) + '" text-anchor="middle" fill="#2c5282" font-size="11" transform="rotate(90,' + (rx + rw + 8) + ',' + (ry + rh / 2) + ')">'
-    + l.toFixed(1) + '\'</text>';
-  
-  var wallZone = 20;
-  html += '<rect class="wall-zone" data-wall="top" x="' + rx + '" y="' + (ry - wallZone / 2)
-    + '" width="' + rw + '" height="' + wallZone + '" fill="transparent" style="cursor:pointer"/>';
-  html += '<rect class="wall-zone" data-wall="bottom" x="' + rx + '" y="' + (ry + rh - wallZone / 2)
-    + '" width="' + rw + '" height="' + wallZone + '" fill="transparent" style="cursor:pointer"/>';
-  html += '<rect class="wall-zone" data-wall="left" x="' + (rx - wallZone / 2) + '" y="' + ry
-    + '" width="' + wallZone + '" height="' + rh + '" fill="transparent" style="cursor:pointer"/>';
-  html += '<rect class="wall-zone" data-wall="right" x="' + (rx + rw - wallZone / 2) + '" y="' + ry
-    + '" width="' + wallZone + '" height="' + rh + '" fill="transparent" style="cursor:pointer"/>';
-  
+  // Room rectangle
+  html += '<rect x="' + rx + '" y="' + ry + '" width="' + rw + '" height="' + rh + '" fill="#f0f4ff" stroke="#2c5282" stroke-width="2" rx="2"/>';
+  // Dimension labels
+  html += '<text x="' + (rx + rw / 2) + '" y="' + (ry - 8) + '" text-anchor="middle" fill="#2c5282" font-size="11">' + w.toFixed(1) + '\'</text>';
+  html += '<text x="' + (rx + rw / 2) + '" y="' + (ry + rh + 16) + '" text-anchor="middle" fill="#2c5282" font-size="11">' + w.toFixed(1) + '\'</text>';
+  html += '<text x="' + (rx - 8) + '" y="' + (ry + rh / 2) + '" text-anchor="middle" fill="#2c5282" font-size="11" transform="rotate(-90,' + (rx - 8) + ',' + (ry + rh / 2) + ')">' + l.toFixed(1) + '\'</text>';
+  html += '<text x="' + (rx + rw + 8) + '" y="' + (ry + rh / 2) + '" text-anchor="middle" fill="#2c5282" font-size="11" transform="rotate(90,' + (rx + rw + 8) + ',' + (ry + rh / 2) + ')">' + l.toFixed(1) + '\'</text>';
+  // &#9472;&#9472; Seam Lines (carpet mode only) &#9472;&#9472;
+  if (isCarpetMode) {
+    var seams = calculateRoomSeamPositions();
+    var conflicts = checkSeamDoorConflicts(seams);
+    var conflictSeamNums = {};
+    conflicts.forEach(function(c) { conflictSeamNums[c.seamNumber] = true; });
+    seams.forEach(function(seam) {
+      var hasConflict = !!conflictSeamNums[seam.seamNumber];
+      var color = hasConflict ? "#ef4444" : "#22c55e";
+      if (currentCarpetDirection === "lengthwise") {
+        var sx = rx + (seam.positionFt / w) * rw;
+        html += '<line x1="' + sx + '" y1="' + ry + '" x2="' + sx + '" y2="' + (ry + rh) + '" stroke="' + color + '" stroke-width="2" stroke-dasharray="6,4" opacity="0.8"/>';
+        html += '<text x="' + sx + '" y="' + (ry + rh + 28) + '" text-anchor="middle" fill="' + color + '" font-size="8" font-weight="600">' + seam.positionFt.toFixed(1) + '\'</text>';
+      } else {
+        var sy = ry + (seam.positionFt / l) * rh;
+        html += '<line x1="' + rx + '" y1="' + sy + '" x2="' + (rx + rw) + '" y2="' + sy + '" stroke="' + color + '" stroke-width="2" stroke-dasharray="6,4" opacity="0.8"/>';
+        html += '<text x="' + (rx + rw + 22) + '" y="' + (sy + 3) + '" text-anchor="middle" fill="' + color + '" font-size="8" font-weight="600">' + seam.positionFt.toFixed(1) + '\'</text>';
+      }
+    });
+  }
+  // &#9472;&#9472; Door Markers (red "D" with distance label) &#9472;&#9472;
   currentDoorMarkers.forEach(function(door, di) {
-    var dx, dy;
-    if (door.wall === "top") {
-      dx = rx + door.position * rw;
-      dy = ry;
-    } else if (door.wall === "bottom") {
-      dx = rx + door.position * rw;
-      dy = ry + rh;
-    } else if (door.wall === "left") {
-      dx = rx;
-      dy = ry + door.position * rh;
-    } else {
-      dx = rx + rw;
-      dy = ry + door.position * rh;
-    }
+    var dx, dy, lbX, lbY;
+    if (door.wall === "top") { dx = rx + (door.positionFt / w) * rw; dy = ry; lbX = dx; lbY = ry - 18; }
+    else if (door.wall === "bottom") { dx = rx + (door.positionFt / w) * rw; dy = ry + rh; lbX = dx; lbY = ry + rh + 28; }
+    else if (door.wall === "left") { dx = rx; dy = ry + (door.positionFt / l) * rh; lbX = rx - 20; lbY = dy + 4; }
+    else { dx = rx + rw; dy = ry + (door.positionFt / l) * rh; lbX = rx + rw + 20; lbY = dy + 4; }
     html += '<g class="door-marker" data-door-idx="' + di + '" style="cursor:pointer">';
     html += '<circle cx="' + dx + '" cy="' + dy + '" r="10" fill="#e53e3e" stroke="#fff" stroke-width="2"/>';
-    html += '<text x="' + dx + '" y="' + (dy + 4) + '" text-anchor="middle" fill="#fff" font-size="10">D</text>';
+    html += '<text x="' + dx + '" y="' + (dy + 4) + '" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">D</text>';
+    html += '<text x="' + lbX + '" y="' + lbY + '" text-anchor="middle" fill="#e53e3e" font-size="8">' + door.positionFt.toFixed(1) + '\'</text>';
     html += '</g>';
   });
-  
+  // &#9472;&#9472; Window Markers (blue "W" with distance label) &#9472;&#9472;
+  currentWindowMarkers.forEach(function(win, wi) {
+    var wx, wy, wlX, wlY;
+    if (win.wall === "top") { wx = rx + (win.positionFt / w) * rw; wy = ry; wlX = wx; wlY = ry - 18; }
+    else if (win.wall === "bottom") { wx = rx + (win.positionFt / w) * rw; wy = ry + rh; wlX = wx; wlY = ry + rh + 28; }
+    else if (win.wall === "left") { wx = rx; wy = ry + (win.positionFt / l) * rh; wlX = rx - 20; wlY = wy + 4; }
+    else { wx = rx + rw; wy = ry + (win.positionFt / l) * rh; wlX = rx + rw + 20; wlY = wy + 4; }
+    html += '<g class="window-marker" data-window-idx="' + wi + '" style="cursor:pointer">';
+    html += '<circle cx="' + wx + '" cy="' + wy + '" r="10" fill="#2563eb" stroke="#fff" stroke-width="2"/>';
+    html += '<text x="' + wx + '" y="' + (wy + 4) + '" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">W</text>';
+    html += '<text x="' + wlX + '" y="' + wlY + '" text-anchor="middle" fill="#2563eb" font-size="8">' + win.positionFt.toFixed(1) + '\'</text>';
+    html += '</g>';
+  });
   svg.innerHTML = html;
-  
-  svg.querySelectorAll(".wall-zone").forEach(function(zone) {
-    zone.addEventListener("click", function(e) {
-      if (!doorPlacementMode) return;
-      var wall = zone.dataset.wall;
-      var rect = zone.getBoundingClientRect();
-      var pos;
-      if (wall === "top" || wall === "bottom") {
-        pos = (e.clientX - rect.left) / rect.width;
-      } else {
-        pos = (e.clientY - rect.top) / rect.height;
-      }
-      pos = Math.max(0.05, Math.min(0.95, pos));
-      addDoorToWall(wall, pos);
-    });
-  });
-  
+  // Click to remove markers
   svg.querySelectorAll(".door-marker").forEach(function(marker) {
-    marker.addEventListener("click", function() {
-      var idx = parseInt(marker.dataset.doorIdx);
-      removeDoorMarker(idx);
-    });
+    marker.addEventListener("click", function() { removeDoorMarker(parseInt(marker.dataset.doorIdx)); });
   });
+  svg.querySelectorAll(".window-marker").forEach(function(marker) {
+    marker.addEventListener("click", function() { removeWindowMarker(parseInt(marker.dataset.windowIdx)); });
+  });
+  updateSeamConflictWarning();
 }
 
-/** Add a door marker to a wall at the given position (0-1 ratio). */
-function addDoorToWall(wall, position) {
-  currentDoorMarkers.push({ wall: wall, position: position });
-  doorPlacementMode = false;
-  var btn = document.getElementById("door-add-btn");
-  var hint = document.getElementById("door-hint");
-  if (btn) btn.classList.remove("active");
-  if (hint) hint.classList.remove("show");
-  renderRoomDiagram();
+function addDoorAtDistance(wall, distanceFt) { currentDoorMarkers.push({ wall: wall, positionFt: distanceFt }); renderRoomDiagram(); }
+function addWindowAtDistance(wall, distanceFt) { currentWindowMarkers.push({ wall: wall, positionFt: distanceFt }); renderRoomDiagram(); }
+function removeDoorMarker(idx) { currentDoorMarkers.splice(idx, 1); renderRoomDiagram(); }
+function removeWindowMarker(idx) { currentWindowMarkers.splice(idx, 1); renderRoomDiagram(); }
+
+/** Open the wall picker UI for placing a door or window. */
+function openWallPicker(target) {
+  wallPickerTarget = target;
+  wallPickerWall = null;
+  var picker = document.getElementById("wall-picker");
+  var label = document.getElementById("wall-picker-label");
+  var distRow = document.getElementById("wall-dist-row");
+  if (picker) picker.classList.add("show");
+  if (label) label.textContent = "Place " + target + " \u2014 select wall:";
+  if (distRow) distRow.classList.remove("show");
+  document.querySelectorAll(".wall-picker-btn").forEach(function(b) { b.classList.remove("selected"); });
+  var distInput = document.getElementById("wall-dist-input");
+  if (distInput) distInput.value = "";
 }
 
-/** Remove a door marker by index. */
-function removeDoorMarker(idx) {
-  currentDoorMarkers.splice(idx, 1);
-  renderRoomDiagram();
+function closeWallPicker() {
+  wallPickerTarget = null;
+  wallPickerWall = null;
+  var picker = document.getElementById("wall-picker");
+  if (picker) picker.classList.remove("show");
+  var doorBtn = document.getElementById("door-add-btn");
+  var windowBtn = document.getElementById("window-add-btn");
+  if (doorBtn) doorBtn.classList.remove("active");
+  if (windowBtn) windowBtn.classList.remove("active");
 }
+
+function onWallSelected(wall) {
+  wallPickerWall = wall;
+  document.querySelectorAll(".wall-picker-btn").forEach(function(b) { b.classList.toggle("selected", b.dataset.wall === wall); });
+  var distRow = document.getElementById("wall-dist-row");
+  var distLabel = document.getElementById("wall-dist-label");
+  var distInput = document.getElementById("wall-dist-input");
+  if (distRow) distRow.classList.add("show");
+  if (distLabel) {
+    distLabel.textContent = (wall === "top" || wall === "bottom") ? "Distance from left edge (ft):" : "Distance from top edge (ft):";
+  }
+  if (distInput) { distInput.value = ""; setTimeout(function() { distInput.focus(); }, 100); }
+}
+
+function confirmWallPlacement() {
+  var distInput = document.getElementById("wall-dist-input");
+  var distFt = toNum(distInput ? distInput.value : 0);
+  if (distFt <= 0) { toast("Enter a distance greater than 0", "error"); return; }
+  var w = toNum((currentDimensionRows[0] && currentDimensionRows[0].width) || 0);
+  var l = toNum((currentDimensionRows[0] && currentDimensionRows[0].length) || 0);
+  var maxDist = (wallPickerWall === "top" || wallPickerWall === "bottom") ? w : l;
+  if (distFt > maxDist) { toast("Distance can't exceed wall length (" + maxDist.toFixed(1) + "')", "error"); return; }
+  if (wallPickerTarget === "door") { addDoorAtDistance(wallPickerWall, distFt); }
+  else { addWindowAtDistance(wallPickerWall, distFt); }
+  closeWallPicker();
+}
+
 
 // -- Dimension Grid ----------------------------------------------------------
 
@@ -2847,6 +2885,7 @@ function saveMeasurements() {
   
   // Door markers
   var doors = currentDoorMarkers.slice();
+  var windows = currentWindowMarkers.slice();
 
   // Carpet and stair calculations
   var carpetCalc = isCarpetMode ? updateCarpetCalcPreview() : null;
@@ -2890,7 +2929,8 @@ function saveMeasurements() {
     stairsQty: stairsQty,
     stairsSF: stairsSF + landingSF,
     stairDemoType: currentStairDemoType,
-    doors: doors
+    doors: doors,
+    windows: windows
   };
 
   closeMeasureModal();
@@ -2905,7 +2945,14 @@ function saveMeasurements() {
   }
 }
 
+/** Close the measurement modal and reset temporary state. */
+function closeMeasureModal() {
+  var modal = document.getElementById("measure-modal");
+  if (modal) modal.classList.remove("show");
+  currentMeasureRoom = null;
+}
 
+  
 /* =============================================================================
  * 9. CARPET CALCULATIONS
  * =============================================================================
@@ -3443,24 +3490,19 @@ function cutRoomFromInventory(req, leftovers, seamAllowanceFt, pmLengthFt, patte
   
   result.totalSY = (result.newLinearFt * carpetWidth) / 9;
   
-  // &#9472;&#9472; Door-seam conflict detection (Tier 2) &#9472;&#9472;
+  // &#9472;&#9472; Door-seam conflict detection &#9472;&#9472;
   result.doorConflicts = [];
   var roomDoors = (roomMeasurements[req.roomId] && roomMeasurements[req.roomId].doors) || [];
-  if (roomDoors.length > 0 && result.seamPositions && result.seamPositions.length > 0) {
+  if (roomDoors.length > 0) {
+    var conflictWalls = (req.direction === "lengthwise") ? ["top", "bottom"] : ["left", "right"];
     for (var di = 0; di < roomDoors.length; di++) {
       var door = roomDoors[di];
-      if (door.wall === "top" || door.wall === "bottom") {
-        var doorPosFt = door.position * widthToCover;
-        for (var si = 0; si < result.seamPositions.length; si++) {
-          var seamDist = result.seamPositions[si].distanceFromEntrance;
-          if (Math.abs(seamDist - doorPosFt) < DOOR_SEAM_BUFFER_FT) {
-            result.doorConflicts.push({
-              doorWall: door.wall,
-              doorPositionFt: doorPosFt,
-              seamNumber: result.seamPositions[si].seamNumber,
-              seamPositionFt: seamDist
-            });
-          }
+      if (conflictWalls.indexOf(door.wall) === -1) continue;
+      var doorFt = door.positionFt;
+      for (var sb = 1; sb < stripsNeeded; sb++) {
+        var seamFt = sb * carpetWidth;
+        if (Math.abs(seamFt - doorFt) <= DOOR_SEAM_BUFFER_FT) {
+          result.doorConflicts.push({ doorWall: door.wall, doorPositionFt: doorFt, seamNumber: sb, seamPositionFt: seamFt });
         }
       }
     }
@@ -3469,7 +3511,6 @@ function cutRoomFromInventory(req, leftovers, seamAllowanceFt, pmLengthFt, patte
   return result;
 }
   
-
 /**
  * Cut stairs from inventory, utilizing leftovers first.
  */
@@ -6842,14 +6883,29 @@ function bindMeasureModalEvents() {
   bind("add-stair-btn", addStairEntry);
   bind("add-landing-btn", addLandingEntry);
   bindStairDemoEvents();
-  // Door marker button
+  // Door marker button — opens wall picker
   bind("door-add-btn", function() {
-    doorPlacementMode = !doorPlacementMode;
     var btn = document.getElementById("door-add-btn");
-    var hint = document.getElementById("door-hint");
-    if (btn) btn.classList.toggle("active", doorPlacementMode);
-    if (hint) hint.classList.toggle("show", doorPlacementMode);
+    var windowBtn = document.getElementById("window-add-btn");
+    if (wallPickerTarget === "door") { closeWallPicker(); }
+    else { if (windowBtn) windowBtn.classList.remove("active"); if (btn) btn.classList.add("active"); openWallPicker("door"); }
   });
+  // Window marker button — opens wall picker
+  bind("window-add-btn", function() {
+    var btn = document.getElementById("window-add-btn");
+    var doorBtn = document.getElementById("door-add-btn");
+    if (wallPickerTarget === "window") { closeWallPicker(); }
+    else { if (doorBtn) doorBtn.classList.remove("active"); if (btn) btn.classList.add("active"); openWallPicker("window"); }
+  });
+  // Wall picker: wall selection buttons
+  document.querySelectorAll(".wall-picker-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() { onWallSelected(btn.dataset.wall); });
+  });
+  // Wall picker: confirm placement
+  bind("wall-dist-confirm", function() { confirmWallPlacement(); });
+  // Wall picker: Enter key on distance input
+  var wallDistInput = document.getElementById("wall-dist-input");
+  if (wallDistInput) { wallDistInput.addEventListener("keydown", function(e) { if (e.key === "Enter") { e.preventDefault(); confirmWallPlacement(); } }); }
   // Carpet direction buttons
   document.querySelectorAll(".carpet-direction-btn").forEach(function(btn) {
     btn.addEventListener("click", function() {
@@ -6858,6 +6914,7 @@ function bindMeasureModalEvents() {
       currentCarpetDirection = btn.dataset.direction;
       updateCarpetCalcPreview();
       updateStairsCalc();
+      renderRoomDiagram();
     });
   });
 }
