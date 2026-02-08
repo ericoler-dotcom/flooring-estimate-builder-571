@@ -440,7 +440,7 @@
     .review-item-row:last-child { border-bottom: none; }
     .review-item-name { font-weight: 500; flex: 1; padding-right: 12px; }
     .review-item-qty { font-weight: 600; color: var(--purple-600); }
-    .comments-card { background: var(--amber-50); border: 2px solid var(--amber-500); }
+    .comments-card { background: white; border: 1px solid var(--gray-200); }
     .comment-field { margin-bottom: 16px; }
     .comment-label { font-size: 14px; font-weight: 600; color: var(--gray-700); margin-bottom: 8px; }
     .comment-textarea { width: 100%; padding: 14px; font-size: 16px; border: 2px solid var(--gray-200); border-radius: var(--radius-md); font-family: inherit; resize: vertical; min-height: 90px; }
@@ -500,10 +500,11 @@
         <div class="carpet-info-card" id="carpet-info-card">
           <div class="carpet-info-title"><span>&#129526;</span> Carpet Specifications</div>
           <div class="carpet-info-grid">
-            <div class="carpet-info-item"><input type="number" class="carpet-info-input" id="carpet-width-input" value="12" min="1" max="15" step="1"><div class="carpet-info-label">Roll Width (ft)</div></div>
+            <div class="carpet-info-item"><div style="display:flex;align-items:center;justify-content:center;gap:2px;"><input type="number" class="carpet-info-input" id="carpet-width-ft-input" value="12" min="1" max="15" step="1" style="width:48%;padding:4px 2px;font-size:16px;"><span style="font-size:14px;color:var(--gray-500);font-weight:600;">'</span><input type="number" class="carpet-info-input" id="carpet-width-in-input" value="0" min="0" max="11" step="1" style="width:38%;padding:4px 2px;font-size:16px;"><span style="font-size:14px;color:var(--gray-500);font-weight:600;">"</span></div><div class="carpet-info-label">Roll Width (ft' in")</div></div>
             <div class="carpet-info-item"><input type="number" class="carpet-info-input" id="carpet-pm-width-input" value="0" min="0" max="99" step="0.1"><div class="carpet-info-label">PM Width (in)</div></div>
             <div class="carpet-info-item"><input type="number" class="carpet-info-input" id="carpet-pm-length-input" value="0" min="0" max="99" step="0.1"><div class="carpet-info-label">PM Length (in)</div></div>
           </div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;padding:8px 12px;background:white;border-radius:var(--radius-sm);"><span style="font-size:12px;color:var(--gray-500);font-weight:600;">Seam Allowance:</span><input type="number" class="carpet-info-input" id="carpet-seam-allowance-input" value="2" min="0" max="12" step="0.5" style="width:60px;font-size:16px;padding:4px;"><span style="font-size:12px;color:var(--gray-500);font-weight:500;">in</span></div>
         </div>
       </div>
     </div>
@@ -596,15 +597,14 @@
         <div class="stair-landing-hint" id="stair-landing-hint" style="display: none;">Measure the stair landings here and the stairs below.</div><div class="measure-section"><div class="measure-section-title dimension-title" id="dimension-section-title"><span class="icon">&#128208;</span> Dimensions (Width x Length)</div><div class="dimension-grid" id="dimension-grid"></div><div class="dimension-footer"><button type="button" class="add-dimension-btn" id="add-dimension-btn"><span>+</span> Add Another Area</button><div class="grand-total-row" id="grand-total-row"><span class="grand-total-value" id="grand-total-sf">0 SF</span></div></div></div>
         <div class="carpet-direction-section" id="carpet-direction-section"><div class="carpet-direction-title">Carpet Direction (relative to room length)</div><div class="carpet-direction-options"><button type="button" class="carpet-direction-btn selected" data-direction="lengthwise"><span class="icon">&#8597;&#65039;</span><span>Lengthwise</span></button><button type="button" class="carpet-direction-btn" data-direction="widthwise"><span class="icon">&#8596;&#65039;</span><span>Widthwise</span></button></div></div>
         <div class="carpet-calc-preview" id="carpet-calc-preview"><div class="carpet-calc-title"><span>&#129518;</span> Carpet Calculation</div><div class="carpet-calc-grid"><div class="carpet-calc-item"><div class="carpet-calc-value" id="calc-strips">0</div><div class="carpet-calc-label">Strips</div></div><div class="carpet-calc-item"><div class="carpet-calc-value" id="calc-cut-length">0'</div><div class="carpet-calc-label">Cut Length</div></div><div class="carpet-calc-item"><div class="carpet-calc-value" id="calc-linear-ft">0</div><div class="carpet-calc-label">Linear Ft</div></div><div class="carpet-calc-item"><div class="carpet-calc-value" id="calc-sq-yds">0</div><div class="carpet-calc-label">Sq Yds</div></div></div><div class="carpet-calc-formula" id="carpet-calc-formula">--</div></div>
-        <div class="measure-section stair-section" id="stair-section"><div class="measure-section-title" id="stair-section-title"><span class="icon">&#129692;</span> Stairs</div><div class="stair-entries" id="stair-entries"><div class="stair-entry" data-stair-idx="0"><div class="stair-input-group"><div class="stair-input-label">Count</div><input type="number" class="stair-input stair-count-input" placeholder="0" min="0"></div><div class="stair-input-group"><div class="stair-input-label">Width (in)</div><input type="number" class="stair-input stair-width-input" placeholder="36" min="0"></div><div class="stair-input-group"><div class="stair-input-label">Tread (in)</div><input type="number" class="stair-input stair-tread-input" placeholder="10" min="0"></div><div class="stair-input-group"><div class="stair-input-label">Riser (in)</div><input type="number" class="stair-input stair-riser-input" placeholder="7" min="0"></div><button type="button" class="stair-remove" data-stair-idx="0">x</button></div></div><button type="button" class="add-stair-btn" id="add-stair-btn"><span>+</span> Add Another Stair</button><div class="stair-nose-section" id="stair-nose-section" style="display: none;"><div class="stair-nose-row"><span class="stair-nose-label">Stair Nose Length</span><div class="stair-nose-input-wrap"><input type="number" class="stair-input" id="stair-nose-length-input" value="78" min="1" oninput="updateStairNoseCalc()"><span class="stair-nose-unit">in</span></div></div><div class="stair-nose-row"><span class="stair-nose-label">Stair Nose Needed</span><span class="stair-nose-count" id="stair-nose-count">0 pcs</span></div></div><div class="stair-calc-result" id="stair-calc-result" style="display: none;"><div class="stair-calc-value" id="stair-sy-result">0 SY</div><div class="stair-calc-label" id="stair-calc-label">Stairs Carpet Total</div></div></div>
+        <div class="measure-section stair-section" id="stair-section"><div class="measure-section-title" id="stair-section-title"><span class="icon">&#129692;</span> Stairs</div><div class="stair-entries" id="stair-entries"><div class="stair-entry" data-stair-idx="0"><div class="stair-input-group"><div class="stair-input-label">Count</div><input type="number" class="stair-input stair-count-input" placeholder="0" min="0"></div><div class="stair-input-group"><div class="stair-input-label">Width (in)</div><input type="number" class="stair-input stair-width-input" placeholder="36" min="0"></div><div class="stair-input-group"><div class="stair-input-label">Tread (in)</div><input type="number" class="stair-input stair-tread-input" placeholder="10" min="0"></div><div class="stair-input-group"><div class="stair-input-label">Riser (in)</div><input type="number" class="stair-input stair-riser-input" placeholder="7" min="0"></div><button type="button" class="stair-remove" data-stair-idx="0">x</button></div></div><div class="stair-btn-row" style="display: flex; gap: 10px; margin-top: 8px;"><button type="button" class="add-stair-btn" id="add-stair-btn" style="flex:1;margin-top:0;"><span>+</span> Add Another Stair</button><button type="button" class="add-stair-btn" id="add-landing-btn" style="flex:1;margin-top:0;background:var(--amber-50);border-color:var(--amber-400);color:#92400e;"><span>+</span> Add Mid Landing</button></div><div class="stair-landing-entries" id="stair-landing-entries" style="display:none;margin-top:12px;"></div><div class="stair-nose-section" id="stair-nose-section" style="display: none;"><div class="stair-nose-row"><span class="stair-nose-label">Stair Nose Length</span><div class="stair-nose-input-wrap"><input type="number" class="stair-input" id="stair-nose-length-input" value="78" min="1" oninput="updateStairNoseCalc()"><span class="stair-nose-unit">in</span></div></div><div class="stair-nose-row"><span class="stair-nose-label">Stair Nose Needed</span><span class="stair-nose-count" id="stair-nose-count">0 pcs</span></div></div><div class="stair-calc-result" id="stair-calc-result" style="display: none;"><div class="stair-calc-value" id="stair-sy-result">0 SY</div><div class="stair-calc-label" id="stair-calc-label">Stairs Carpet Total</div></div></div>
         <div class="carpet-yardage-row" id="carpet-yardage-row"><div><span class="grand-total-label">Carpet Sq Yards</span><div class="carpet-yardage-details" id="carpet-yardage-details">0 strips @ 0' = 0 LF</div></div><span class="grand-total-value" id="carpet-total-sy-modal">0 SY</span></div>
         <div class="measure-section" id="moldings-section"><div class="measure-section-title"><span class="icon">&#128207;</span> Needed Moldings</div><div class="molding-items" id="molding-items"><div class="molding-item" data-molding="t-molding"><span class="molding-item-name">T-Molding</span><div class="molding-item-controls"><button type="button" class="molding-btn minus">-</button><span class="molding-value">0</span><button type="button" class="molding-btn plus">+</button></div></div><div class="molding-item" data-molding="reducer"><span class="molding-item-name">Reducer</span><div class="molding-item-controls"><button type="button" class="molding-btn minus">-</button><span class="molding-value">0</span><button type="button" class="molding-btn plus">+</button></div></div><div class="molding-item" data-molding="threshold"><span class="molding-item-name">Threshold</span><div class="molding-item-controls"><button type="button" class="molding-btn minus">-</button><span class="molding-value">0</span><button type="button" class="molding-btn plus">+</button></div></div><div class="molding-item" data-molding="stair-nose"><span class="molding-item-name">Stair Nose</span><div class="molding-item-controls"><button type="button" class="molding-btn minus">-</button><span class="molding-value">0</span><button type="button" class="molding-btn plus">+</button></div></div></div></div>
         <div class="measure-section" id="bathroom-fixtures-section" style="display: none;"><div class="measure-section-title"><span class="icon">&#128701;</span> Bathroom Fixtures</div><div class="counter-grid"><div class="counter-row" data-counter="toilet"><span class="counter-label">Toilet</span><div class="counter-controls"><button type="button" class="counter-btn minus">-</button><span class="counter-value">0</span><button type="button" class="counter-btn plus">+</button></div></div><div class="counter-row" data-counter="pedestal"><span class="counter-label">Pedestal</span><div class="counter-controls"><button type="button" class="counter-btn minus">-</button><span class="counter-value">0</span><button type="button" class="counter-btn plus">+</button></div></div></div></div>
         <div class="measure-section" id="appliances-section" style="display: none;"><div class="measure-section-title"><span class="icon">&#128268;</span> Appliances</div><div class="counter-grid"><div class="counter-row" data-counter="appliances"><span class="counter-label">Appliances</span><div class="counter-controls"><button type="button" class="counter-btn minus">-</button><span class="counter-value">0</span><button type="button" class="counter-btn plus">+</button></div></div></div></div>
         <div class="measure-section"><div class="measure-section-title"><span class="icon">&#128296;</span> Existing Floor (Demo)</div><div class="demo-keywords" id="demo-keywords"><button type="button" class="demo-keyword" data-demo="carpet">Carpet</button><button type="button" class="demo-keyword" data-demo="tile">Tile</button><button type="button" class="demo-keyword" data-demo="hardwood">Hardwood</button><button type="button" class="demo-keyword" data-demo="laminate">Laminate</button><button type="button" class="demo-keyword" data-demo="vinyl">Vinyl/LVP</button><button type="button" class="demo-keyword" data-demo="stained concrete">Stained Concrete</button><button type="button" class="demo-keyword" data-demo="none">None</button></div></div>
-<div class="measure-section"><div class="measure-section-title"><span class="icon">&#128247;</span> Room Photos (up to 5)</div><div class="photo-capture-container"><div class="photo-thumbnails" id="photo-thumbnails"></div><button type="button" class="photo-capture-btn" id="photo-capture-btn"><span class="camera-icon">&#128248;</span><span>Take Photo</span></button><input type="file" id="photo-input" accept="image/*" capture="environment" multiple style="display: none;"></div></div>
-<div class="stair-demo-prompt" id="stair-demo-prompt" style="display: none;"><div class="stair-demo-question">Does the stair area have existing flooring to remove?</div><div class="stair-demo-options" id="stair-demo-options"><button type="button" class="stair-demo-btn" data-stair-demo="none">No Demo</button><button type="button" class="stair-demo-btn" data-stair-demo="same">Same as Room</button><button type="button" class="stair-demo-btn" data-stair-demo="carpet">Carpet</button><button type="button" class="stair-demo-btn" data-stair-demo="vinyl">Vinyl</button><button type="button" class="stair-demo-btn" data-stair-demo="wood">Wood</button><button type="button" class="stair-demo-btn" data-stair-demo="tile">Tile</button></div></div>
-        <div class="measure-section"><div class="measure-section-title"><span class="icon">&#128221;</span> Room Notes</div><textarea class="room-notes-input" id="room-notes-input" placeholder="Notes for this room (e.g., furniture move, obstacles, special instructions...)"></textarea></div>
+<div class="stair-demo-prompt" id="stair-demo-prompt" style="display: none;"><div class="stair-demo-question">Does the stair area have existing flooring to remove?</div><div class="stair-demo-options" id="stair-demo-options"><button type="button" class="stair-demo-btn" data-stair-demo="none">No Demo</button><button type="button" class="stair-demo-btn" data-stair-demo="same">Same as Room</button><button type="button" class="stair-demo-btn" data-stair-demo="carpet">Carpet</button><button type="button" class="stair-demo-btn" data-stair-demo="hardwood">Hardwood</button><button type="button" class="stair-demo-btn" data-stair-demo="vinyl">Vinyl</button><button type="button" class="stair-demo-btn" data-stair-demo="tile">Tile</button></div></div>
+<div class="measure-section"><div class="measure-section-title"><span class="icon">&#128247;</span> Room Photos (up to 5)</div><div class="photo-capture-container"><div class="photo-thumbnails" id="photo-thumbnails"></div><button type="button" class="photo-capture-btn" id="photo-capture-btn"><span class="camera-icon">&#128248;</span><span>Take Photo</span></button><input type="file" id="photo-input" accept="image/*" capture="environment" multiple style="display: none;"></div></div>        <div class="measure-section"><div class="measure-section-title"><span class="icon">&#128221;</span> Room Notes</div><textarea class="room-notes-input" id="room-notes-input" placeholder="Notes for this room (e.g., furniture move, obstacles, special instructions...)"></textarea></div>
       </div>
       <div class="measure-actions"><button type="button" class="btn btn-secondary" id="measure-cancel-btn">Cancel</button><button type="button" class="btn btn-primary" id="measure-save-btn">Save Measurements</button></div>
     </div>
@@ -689,7 +689,7 @@ var DBID_ATTACHMENTS    = "bk8aj58nc";
 
 /** Measures table fields */
 var ME = {
-  RID: 3, AREA: 6, WIDTH: 7, LENGTH: 8, REL_PROJECT: 11, TYPE: 13,
+  RID: 3, AREA: 6, WIDTH: 7, LENGTH: 8, REL_PROJECT: 11, TYPE: 13, MEASURED_AREAS: 36,
   DIRECTION: 16, NOTES: 17, STAIR_QTY: 39, STAIR_WIDTH: 40,
   PICTURE_1: 42, PICTURE_2: 50, PICTURE_3: 51, REL_ITEM: 71,
   MEASURED_MOLDINGS: 74, MOLDING_COUNT: 75, TOTAL_MOLDING_LF: 81,
@@ -748,7 +748,7 @@ var BI = {
 var ED = {
   REL_PROJ: 86, REL_BI: 17, REL_ITEM: 18, SKU: 19, DESC: 6,
   QTY: 11, COST: 12, RATE: 43, QTY_UOM: 14, UOM: 7, WASTE: 15,
-  CUST: 81, WORK: 91, RES: 167, SEQUENCE: 98
+  CUST: 81, WORK: 91, RES: 167, SEQUENCE: 98, EXCLUDE_FROM_SALES: 92
 };
 
 /** Attachments table fields */
@@ -953,13 +953,16 @@ var pendingClosetArea    = null;       // Area awaiting closet selection
 var currentMeasureRoom       = null;   // { id, label } of room being measured
 var currentDimensionRows     = [];     // Array of { width, length } for current room
 var dimensionAutoAdvanceTimer = null;  // Timer for auto-advancing to next field
+var landingAutoAdvanceTimer = null;  // Timer for auto-advancing to next field
 var currentRoomPhotos        = [];     // Array of { data, name } for current room
 var currentStairEntries      = [];     // Stair measurement entries for current room
+var currentLandingEntries    = [];     // Mid landing entries for current room
 var stairAutoAdvanceTimer    = null;   // Timer for stair field auto-advance
 
 // -- Carpet Mode State -------------------------------------------------------
 var isCarpetMode             = false;  // True when primary item is carpet
 var carpetWidth              = DEFAULT_CARPET_WIDTH_FT;
+var currentOptimizedPlan = null;
 var patternMatchWidth        = 0;      // Pattern match width (inches)
 var patternMatchLength       = 0;      // Pattern match length (inches)
 var currentCarpetDirection   = "lengthwise"; // "lengthwise" or "widthwise"
@@ -1022,6 +1025,40 @@ function getParam(name) {
  * @param {*} value - Value to parse
  * @returns {number}
  */
+
+// Parse carpet width from various text formats into decimal feet
+// Handles: "13' 2\"", "13'2", "13.17", "13 2", "13", etc.
+function parseCarpetWidth(value) {
+  if (value === null || value === undefined) return 0;
+  var str = String(value).trim();
+  if (!str) return 0;
+  
+  // Try feet-inches pattern: 13'2", 13' 2", 13'2, 13' 2
+  var ftInMatch = str.match(/^(\d+)\s*['']\s*(\d+)\s*["""]?\s*$/);
+  if (ftInMatch) {
+    return parseInt(ftInMatch[1]) + (parseInt(ftInMatch[2]) / 12);
+  }
+  
+  // Try space-separated: "13 2" (feet inches)
+  var spaceMatch = str.match(/^(\d+)\s+(\d+)$/);
+  if (spaceMatch) {
+    return parseInt(spaceMatch[1]) + (parseInt(spaceMatch[2]) / 12);
+  }
+  
+  // Fall back to numeric parse (handles "13", "13.17", "12.5", etc.)
+  var n = parseFloat(str);
+  return isNaN(n) ? 0 : n;
+}
+
+// Convert decimal feet to readable ft-in string (e.g., 12.5 &#8594; "12'6\"")
+function toFtInStr(decimalFt) {
+  if (decimalFt === null || decimalFt === undefined || isNaN(decimalFt)) return "0'0\"";
+  var totalInches = Math.round(decimalFt * 12);
+  var ft = Math.floor(totalInches / 12);
+  var inches = totalInches % 12;
+  return ft + "'" + inches + "\"";
+}
+
 function toNum(value) {
   var n = parseFloat(value);
   return isNaN(n) ? 0 : n;
@@ -1328,7 +1365,7 @@ async function searchItems(term, resourceRid) {
       resourceRid: g(IT.RES),
       category: g(IT.CAT),
       itemType: g(IT.ITEM_TYPE),
-      carpetWidth: toNum(g(IT.WIDTH)) || DEFAULT_CARPET_WIDTH_FT,
+      carpetWidth: parseCarpetWidth(g(IT.WIDTH)) || DEFAULT_CARPET_WIDTH_FT,
       patternMatchWidth: toNum(g(IT.PATTERN_MATCH_WIDTH)),
       patternMatchLength: toNum(g(IT.PATTERN_MATCH_LENGTH)),
       // Raw tier-specific values (used by pickCR)
@@ -1918,6 +1955,10 @@ function openMeasureModal(areaId, areaLabel) {
     ? JSON.parse(JSON.stringify(existing.stairEntries))
     : [{ count: "", width: String(DEFAULT_STAIR.WIDTH_IN), tread: String(DEFAULT_STAIR.TREAD_IN), riser: String(DEFAULT_STAIR.RISER_IN) }];
 
+  currentLandingEntries = existing && existing.landingEntries
+    ? JSON.parse(JSON.stringify(existing.landingEntries))
+    : [];
+
   currentCarpetDirection = (existing && existing.carpetDirection) || "lengthwise";
   currentStairDemoType = (existing && existing.stairDemoType) || "none";
 
@@ -2025,25 +2066,24 @@ function openMeasureModal(areaId, areaLabel) {
     }
   }
 
-  // -- Molding visibility (stair rooms only show stair-nose) -------------
-  document.querySelectorAll(".molding-item").forEach(function(item) {
-    item.style.display = isHardSurfaceStairMode
-      ? (item.dataset.molding === "stair-nose" ? "" : "none")
-      : "";
-  });
-
-  var moldingsSectionTitle = document.querySelector("#moldings-section .measure-section-title");
-  if (moldingsSectionTitle) {
-    moldingsSectionTitle.innerHTML = isHardSurfaceStairMode
-      ? '<span class="icon">&#128207;</span> Stair Moldings'
-      : '<span class="icon">&#128207;</span> Needed Moldings';
-  }
-
-  // Hide moldings entirely for carpet and tile
+// -- Molding visibility ------------------------------------------------
   var moldingsSection = document.getElementById("moldings-section");
+  var moldingsSectionTitle = document.querySelector("#moldings-section .measure-section-title");
+  
+  // Hide moldings entirely for carpet and tile
+  var hideMoldings = isCarpetCategory(primaryCat) || isTileCategory(primaryCat);
   if (moldingsSection) {
-    var hideMoldings = isCarpetCategory(primaryCat) || isTileCategory(primaryCat);
     moldingsSection.style.display = hideMoldings ? "none" : "";
+  }
+  
+  // For non-carpet/tile: show all moldings normally
+  if (!hideMoldings) {
+    document.querySelectorAll(".molding-item").forEach(function(item) {
+      item.style.display = "";
+    });
+    if (moldingsSectionTitle) {
+      moldingsSectionTitle.innerHTML = '<span class="icon">&#128207;</span> Needed Moldings';
+    }
   }
 
   // -- Demo section (always visible) -------------------------------------
@@ -2052,8 +2092,9 @@ function openMeasureModal(areaId, areaLabel) {
     demoKeywordsSection.parentElement.style.display = "";
   }
 
-  // -- Render stair entries and calculations -----------------------------
+// -- Render stair entries and calculations -----------------------------
   renderStairEntries();
+  renderLandingEntries();
   if (isCarpetMode) {
     updateCarpetCalcPreview();
     updateStairsCalc();
@@ -2093,7 +2134,11 @@ function updateMeasureProductReminder() {
     var carpetSpecsRow = el("carpet-specs-row");
     if (isCarpetMode) {
       if (carpetSpecsRow) carpetSpecsRow.classList.add("show");
-      if (el("modal-carpet-width")) el("modal-carpet-width").textContent = carpetWidth + "'";
+      if (el("modal-carpet-width")) {
+        var displayFt = Math.floor(carpetWidth);
+        var displayIn = Math.round((carpetWidth - displayFt) * 12);
+        el("modal-carpet-width").textContent = displayIn > 0 ? displayFt + "'" + displayIn + '"' : displayFt + "'";
+      }
       if (el("modal-carpet-pm")) el("modal-carpet-pm").textContent = patternMatchLength > 0 ? patternMatchLength + '"' : "None";
     } else {
       if (carpetSpecsRow) carpetSpecsRow.classList.remove("show");
@@ -2390,6 +2435,14 @@ function saveMeasurements() {
     }
   });
 
+  // Calculate landing SF
+  var landingSF = 0;
+  currentLandingEntries.forEach(function(entry) {
+    var w = toNum(entry.width);
+    var l = toNum(entry.length);
+    if (w > 0 && l > 0) landingSF += w * l;
+  });
+
   // Persist to state
   roomMeasurements[savedId] = {
     totalSF: totalSF,
@@ -2402,9 +2455,10 @@ function saveMeasurements() {
     carpetDirection: currentCarpetDirection,
     carpetCalc: carpetCalc,
     stairEntries: JSON.parse(JSON.stringify(currentStairEntries)),
+    landingEntries: JSON.parse(JSON.stringify(currentLandingEntries)),
     stairsCalc: stairsCalc,
     stairsQty: stairsQty,
-    stairsSF: stairsSF,
+    stairsSF: stairsSF + landingSF,
     stairDemoType: currentStairDemoType
   };
 
@@ -2442,13 +2496,19 @@ function updateCarpetMode() {
     if (carpetInfoCard) carpetInfoCard.classList.add("show");
 
     // Sync input fields
-    var widthInput = document.getElementById("carpet-width-input");
+    var widthFtInput = document.getElementById("carpet-width-ft-input");
+    var widthInInput = document.getElementById("carpet-width-in-input");
     var pmWidthInput = document.getElementById("carpet-pm-width-input");
     var pmLengthInput = document.getElementById("carpet-pm-length-input");
-    if (widthInput) widthInput.value = carpetWidth;
+    // Split decimal feet into feet and inches for display
+    var wholeFt = Math.floor(carpetWidth);
+    var remainIn = Math.round((carpetWidth - wholeFt) * 12);
+    if (widthFtInput) widthFtInput.value = wholeFt;
+    if (widthInInput) widthInInput.value = remainIn;
     if (pmWidthInput) pmWidthInput.value = patternMatchWidth;
     if (pmLengthInput) pmLengthInput.value = patternMatchLength;
-  } else {
+    var seamInput = document.getElementById("carpet-seam-allowance-input");
+    if (seamInput) seamInput.value = SEAM_ALLOWANCE_IN;  } else {
     isCarpetMode = false;
     carpetWidth = DEFAULT_CARPET_WIDTH_FT;
     patternMatchWidth = 0;
@@ -2632,7 +2692,16 @@ function optimizeCarpetCutting(forceDirection) {
     { name: "Smallest First", sort: function(a, b) { return (a.totalSF || 0) - (b.totalSF || 0); } },
     { name: "Widest First", sort: function(a, b) { return (b.width || 0) - (a.width || 0); } },
     { name: "Longest First", sort: function(a, b) { return (b.length || 0) - (a.length || 0); } },
-    { name: "Rooms then Stairs", sort: function(a, b) { return (a.isStair ? 1 : 0) - (b.isStair ? 1 : 0); } }
+    { name: "Rooms then Stairs", sort: function(a, b) { return (a.isStair ? 1 : 0) - (b.isStair ? 1 : 0); } },
+    { name: "Generate then Reuse", sort: function(a, b) {
+      // Large rooms first (generate leftovers from multi-strip cuts)
+      // Small rooms/closets next (fit inside leftovers)
+      // Stairs last (fit in smallest scraps)
+      var aGroup = a.isStair ? 2 : ((a.width || 0) <= carpetWidth && (a.length || 0) <= carpetWidth ? 1 : 0);
+      var bGroup = b.isStair ? 2 : ((b.width || 0) <= carpetWidth && (b.length || 0) <= carpetWidth ? 1 : 0);
+      if (aGroup !== bGroup) return aGroup - bGroup;
+      return (b.totalSF || 0) - (a.totalSF || 0);
+    }}
   ];
   
   strategies.forEach(function(strategy) {
@@ -2640,8 +2709,8 @@ function optimizeCarpetCutting(forceDirection) {
     var plan = calculateCuttingPlan(sortedReqs, seamAllowanceFt, pmLengthFt);
     plan.strategyName = strategy.name;
     
-    if (plan.totalWasteSY < bestWaste) {
-      bestWaste = plan.totalWasteSY;
+    if (plan.totalLinearFt < bestWaste) {
+      bestWaste = plan.totalLinearFt;
       bestPlan = plan;
     }
   });
@@ -2766,6 +2835,90 @@ function cutRoomFromInventory(req, leftovers, seamAllowanceFt, pmLengthFt, patte
   var stripsNeeded = Math.ceil(widthToCover / carpetWidth);
   var leftoverWidthFromStrips = (stripsNeeded * carpetWidth) - widthToCover;
   
+  // &#9472;&#9472; Check if entire room fits inside a leftover piece &#9472;&#9472;
+  // Small rooms and closets can often be cut from leftover strips
+  // generated by larger rooms, avoiding new roll consumption.
+  // Uses best-fit selection to preserve larger leftovers for bigger rooms.
+  var cutLengthBase = cutLength + seamAllowanceFt;
+  var usedLeftoverForWholeRoom = false;
+  
+  var bestFitIdx = -1;
+  var bestFitArea = Infinity;
+  
+  for (var li = 0; li < result.remainingLeftovers.length; li++) {
+    var lo = result.remainingLeftovers[li];
+    // Leftover must be wide enough for room AND long enough for cut
+    if (lo.width >= widthToCover && lo.length >= cutLengthBase) {
+      // Check pattern alignment for patterned carpet
+      var patternOK = true;
+      if (pmLengthFt > 0) {
+        var patternOffset = (result.patternPos - lo.patternPos) % pmLengthFt;
+        patternOK = patternOffset < 0.1 || (pmLengthFt - patternOffset) < 0.1;
+      }
+      if (!patternOK) continue;
+      
+      // Track smallest sufficient leftover (best fit to minimize waste)
+      var loArea = lo.width * lo.length;
+      if (loArea < bestFitArea) {
+        bestFitArea = loArea;
+        bestFitIdx = li;
+      }
+    }
+  }
+  
+  if (bestFitIdx >= 0) {
+    var bestLo = result.remainingLeftovers[bestFitIdx];
+    
+    var leftoverCut = {
+      roomId: req.roomId,
+      roomName: req.roomName,
+      stripNumber: 1,
+      cutLength: cutLengthBase,
+      cutWidth: widthToCover,
+      seamAllowance: seamAllowanceFt,
+      patternMatch: 0,
+      fromLeftover: true,
+      leftoverSource: bestLo.source
+    };
+    result.cuts.push(leftoverCut);
+    result.usedFromLeftover++;
+    
+    // Split remaining leftover into up to 2 usable sub-pieces
+    var remLength = bestLo.length - cutLengthBase;
+    var remWidth = bestLo.width - widthToCover;
+    var savedPatternPos = bestLo.patternPos;
+    var savedSource = bestLo.source;
+    var savedLoWidth = bestLo.width;
+    result.remainingLeftovers.splice(bestFitIdx, 1);
+    
+    // Sub-piece A: below the room (full leftover width × remaining length)
+    if (remLength >= MIN_LEFTOVER_DIM_FT && savedLoWidth >= MIN_LEFTOVER_DIM_FT) {
+      result.remainingLeftovers.push({
+        width: savedLoWidth,
+        length: remLength,
+        patternPos: savedPatternPos + cutLengthBase,
+        source: savedSource + " (after " + req.roomName + ")"
+      });
+    }
+    // Sub-piece B: beside the room (remaining width × room cut length)
+    if (remWidth >= MIN_LEFTOVER_DIM_FT && cutLengthBase >= MIN_LEFTOVER_DIM_FT) {
+      result.remainingLeftovers.push({
+        width: remWidth,
+        length: cutLengthBase,
+        patternPos: savedPatternPos,
+        source: savedSource + " (beside " + req.roomName + ")"
+      });
+    }
+    
+    usedLeftoverForWholeRoom = true;
+  }
+  
+  // If room was fully cut from leftover, skip the strip loop
+  if (usedLeftoverForWholeRoom) {
+    result.totalSY = 0; // No new carpet consumed
+    return result;
+  }
+  
   for (var s = 0; s < stripsNeeded; s++) {
     var isFirstStrip = (s === 0);
     var stripLength = cutLength + seamAllowanceFt;
@@ -2795,16 +2948,28 @@ function cutRoomFromInventory(req, leftovers, seamAllowanceFt, pmLengthFt, patte
       }
     }
     
+    // Determine this strip's actual coverage width
+    var isLastStrip = (s === stripsNeeded - 1);
+    var stripCoverWidth = isLastStrip ? (widthToCover - (s * carpetWidth)) : carpetWidth;
+    var isFillStrip = stripCoverWidth < carpetWidth;
+    
     var cut = {
       roomId: req.roomId,
       roomName: req.roomName,
       stripNumber: s + 1,
       cutLength: stripLength,
       cutWidth: carpetWidth,
+      coverWidth: stripCoverWidth,
       seamAllowance: seamAllowanceFt,
       patternMatch: (!isFirstStrip && pmLengthFt > 0) ? pmLengthFt : 0,
       fromLeftover: !!usedLeftover,
-      leftoverSource: usedLeftover ? usedLeftover.source : null
+      leftoverSource: usedLeftover ? usedLeftover.source : null,
+      isFillStrip: isFillStrip,
+      // Tier 1: Fill strip always at far wall (away from entrance)
+      placement: isFillStrip ? "far wall" : "from entrance",
+      distanceFromEntrance: isFillStrip
+        ? (widthToCover - stripCoverWidth)
+        : (s * carpetWidth)
     };
     
     if (usedLeftover) {
@@ -2838,6 +3003,32 @@ function cutRoomFromInventory(req, leftovers, seamAllowanceFt, pmLengthFt, patte
   }
   
   result.totalSY = (result.newLinearFt * carpetWidth) / 9;
+  
+  // &#9472;&#9472; Seam summary (Tier 1: entrance-away placement) &#9472;&#9472;
+  result.seamCount = stripsNeeded > 1 ? stripsNeeded - 1 : 0;
+  result.seamPositions = [];
+  
+  if (stripsNeeded > 1) {
+    // Seams fall between strips, measured from entrance
+    // Full strips stack from entrance; fill strip at far wall
+    for (var sm = 1; sm < stripsNeeded; sm++) {
+      var seamDistFromEntrance;
+      if (sm < stripsNeeded - 1) {
+        // Seam between two full strips
+        seamDistFromEntrance = sm * carpetWidth;
+      } else {
+        // Seam before the fill strip (pushed to far wall)
+        var fillWidth = widthToCover - ((stripsNeeded - 1) * carpetWidth);
+        seamDistFromEntrance = widthToCover - fillWidth;
+      }
+      result.seamPositions.push({
+        seamNumber: sm,
+        distanceFromEntrance: seamDistFromEntrance,
+        distanceFromEntranceFtIn: toFtInStr(seamDistFromEntrance)
+      });
+    }
+  }
+  
   return result;
 }
 
@@ -2945,8 +3136,41 @@ function cutStairsFromInventory(req, leftovers, seamAllowanceFt, pmLengthFt, pat
 function recalculateCarpetPlan(forceDirection) {
   var plan = optimizeCarpetCutting(forceDirection);
   if (plan) {
+    currentOptimizedPlan = plan;
     renderCarpetCuttingDiagram(plan);
     updateCarpetPlanSummary(plan);
+    
+    // &#9472;&#9472; Push optimized quantities to bid items &#9472;&#9472;
+    var primaryQtyEl = document.getElementById("primary-qty");
+    var gridQtyEl = document.getElementById("primary-item-qty-grid");
+    var qtySourceEl = document.getElementById("qty-source");
+    
+    // Update primary quantity with optimized SY
+    if (primaryQtyEl) primaryQtyEl.value = plan.totalSY.toFixed(2);
+    if (gridQtyEl) gridQtyEl.value = plan.totalSY.toFixed(2);
+    
+    // Update source description with optimized numbers
+    var measuredCount = 0;
+    selectedAreas.forEach(function(area) {
+      var m = roomMeasurements[area.id];
+      if (m && m.totalSF > 0) measuredCount++;
+    });
+    if (qtySourceEl) {
+      qtySourceEl.textContent = "From " + measuredCount + " measured room"
+        + (measuredCount !== 1 ? "s" : "") + " ("
+        + plan.cuts.length + " cuts, "
+        + plan.totalLinearFt.toFixed(0) + " LF)";
+    }
+    
+    // Update carpet summary row in Step 2 header
+    var syEl = document.getElementById("carpet-total-sy");
+    var cutsEl = document.getElementById("carpet-total-cuts");
+    var lfEl = document.getElementById("carpet-total-lf");
+    var totalSyEl = document.getElementById("total-carpet-sy");
+    if (syEl) syEl.textContent = plan.totalSY.toFixed(2);
+    if (cutsEl) cutsEl.textContent = plan.cuts.length;
+    if (lfEl) lfEl.textContent = plan.totalLinearFt.toFixed(0);
+    if (totalSyEl) totalSyEl.textContent = plan.totalSY.toFixed(2);
   }
   return plan;
 }
@@ -3030,14 +3254,14 @@ function renderCarpetCuttingDiagram(plan) {
   
   // Title
   svg += '<text x="' + PADDING + '" y="22" font-size="13" font-weight="bold" fill="#374151">';
-  svg += 'CARPET CUTTING DIAGRAM - ' + carpetWidth + '\' Wide Roll</text>';
+  svg += 'CARPET CUTTING DIAGRAM - ' + toFtInStr(carpetWidth) + ' Wide Roll</text>';
   
   // Roll width indicator
   var rollStartX = PADDING;
   var rollStartY = 35;
   svg += '<rect x="' + rollStartX + '" y="' + rollStartY + '" width="' + rollWidthPx + '" height="25" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1" rx="3"/>';
   svg += '<text x="' + (rollStartX + rollWidthPx / 2) + '" y="' + (rollStartY + 16) + '" text-anchor="middle" font-size="11" fill="#6b7280">';
-  svg += '&#8592; ' + carpetWidth + '\' Roll Width &#8594;</text>';
+  svg += '&#8592; ' + toFtInStr(carpetWidth) + ' Roll Width &#8594;</text>';
   
   var currentY = rollStartY + 35;
   
@@ -3060,7 +3284,7 @@ function renderCarpetCuttingDiagram(plan) {
     
     // Dimensions
     svg += '<text x="' + (rollStartX + 8) + '" y="' + (currentY + 30) + '" font-size="9" fill="#6b7280">';
-    svg += cut.cutLength.toFixed(1) + '\' x ' + carpetWidth + '\'';
+    svg += cut.cutLength.toFixed(1) + '\' x ' + toFtInStr(carpetWidth);
     if (cut.fromLeftover) svg += ' (from leftover)';
     svg += '</text>';
     
@@ -3077,7 +3301,7 @@ function renderCarpetCuttingDiagram(plan) {
     if (cut.seamAllowance > 0) {
       var seamHeight = Math.max(cut.seamAllowance * SCALE, 4);
       svg += '<rect x="' + rollStartX + '" y="' + currentY + '" width="' + rollWidthPx + '" height="' + seamHeight + '" ';
-      svg += 'fill="#ef4444" fill-opacity="0.4" rx="3 3 0 0"/>';
+      svg += 'fill="#ef4444" fill-opacity="0.4" rx="3"/>';
     }
     
     // Length label on right
@@ -3375,10 +3599,17 @@ function updateCarpetSummaryTotals() {
 
   var totals = calculateTotalCarpetYardage();
   var el = function(id) { return document.getElementById(id); };
-  if (el("carpet-total-sy")) el("carpet-total-sy").textContent = totals.grandTotalSquareYards.toFixed(2);
-  if (el("carpet-total-cuts")) el("carpet-total-cuts").textContent = totals.totalStrips;
-  if (el("carpet-total-lf")) el("carpet-total-lf").textContent = totals.totalLinearFeet.toFixed(0);
-  if (el("total-carpet-sy")) el("total-carpet-sy").textContent = totals.grandTotalSquareYards.toFixed(2);
+  if (currentOptimizedPlan) {
+    if (el("carpet-total-sy")) el("carpet-total-sy").textContent = currentOptimizedPlan.totalSY.toFixed(2);
+    if (el("carpet-total-cuts")) el("carpet-total-cuts").textContent = currentOptimizedPlan.cuts.length;
+    if (el("carpet-total-lf")) el("carpet-total-lf").textContent = currentOptimizedPlan.totalLinearFt.toFixed(0);
+    if (el("total-carpet-sy")) el("total-carpet-sy").textContent = currentOptimizedPlan.totalSY.toFixed(2);
+  } else {
+    if (el("carpet-total-sy")) el("carpet-total-sy").textContent = totals.grandTotalSquareYards.toFixed(2);
+    if (el("carpet-total-cuts")) el("carpet-total-cuts").textContent = totals.totalStrips;
+    if (el("carpet-total-lf")) el("carpet-total-lf").textContent = totals.totalLinearFeet.toFixed(0);
+    if (el("total-carpet-sy")) el("total-carpet-sy").textContent = totals.grandTotalSquareYards.toFixed(2);
+  }
 }
 
 /**
@@ -3515,6 +3746,128 @@ function renderStairEntries() {
   });
 }
 
+/** Render mid landing entry rows. */
+function renderLandingEntries() {
+  var container = document.getElementById("stair-landing-entries");
+  if (!container) return;
+  
+  if (currentLandingEntries.length === 0) {
+    container.style.display = "none";
+    return;
+  }
+  
+  container.style.display = "block";
+  var html = '<div class="measure-section-title" style="font-size:13px;margin-bottom:8px;"><span class="icon">&#128195;</span> Mid Landings</div>';
+  
+  currentLandingEntries.forEach(function(entry, idx) {
+    var w = toNum(entry.width);
+    var l = toNum(entry.length);
+    var sf = w * l;
+    var hasValue = w > 0 && l > 0;
+    
+    html += '<div class="dimension-row' + (hasValue ? ' has-value' : '') + '" data-landing-idx="' + idx + '" style="background:var(--amber-50);border-color:var(--amber-300);">';
+    html += '<div class="dimension-input-wrap"><input type="number" class="dimension-input landing-width" placeholder="W" value="' + (entry.width || '') + '" inputmode="decimal" step="0.1" min="0"></div>';
+    html += '<span class="dimension-x">&times;</span>';
+    html += '<div class="dimension-input-wrap"><input type="number" class="dimension-input landing-length" placeholder="L" value="' + (entry.length || '') + '" inputmode="decimal" step="0.1" min="0"></div>';
+    html += '<span class="dimension-equals">=</span>';
+    html += '<span class="dimension-total" style="background:var(--amber-100);color:#92400e;">' + (hasValue ? sf.toFixed(0) + ' SF' : '0 SF') + '</span>';
+    html += '<button type="button" class="dimension-remove" data-landing-idx="' + idx + '">&times;</button>';
+    html += '</div>';
+  });
+  
+  container.innerHTML = html;
+  bindLandingEntryEvents(container);
+}
+
+/** Bind events to landing entry inputs. */
+function bindLandingEntryEvents(container) {
+  container.querySelectorAll(".dimension-row").forEach(function(row) {
+    var idx = parseInt(row.dataset.landingIdx);
+    var widthInput = row.querySelector(".landing-width");
+    var lengthInput = row.querySelector(".landing-length");
+    var removeBtn = row.querySelector(".dimension-remove");
+    
+    if (widthInput) {
+      widthInput.addEventListener("input", function() {
+        currentLandingEntries[idx].width = widthInput.value;
+        updateLandingRowTotal(row);
+        updateStairsCalc();
+        
+        clearTimeout(landingAutoAdvanceTimer);
+        if (widthInput.value !== "") {
+          landingAutoAdvanceTimer = setTimeout(function() {
+            if (lengthInput) { lengthInput.focus(); lengthInput.select(); }
+          }, DIMENSION_AUTO_ADVANCE_MS);
+        }
+      });
+      widthInput.addEventListener("focus", function() { clearTimeout(landingAutoAdvanceTimer); });
+    }
+    
+    if (lengthInput) {
+      lengthInput.addEventListener("input", function() {
+        currentLandingEntries[idx].length = lengthInput.value;
+        updateLandingRowTotal(row);
+        updateStairsCalc();
+        
+        clearTimeout(landingAutoAdvanceTimer);
+        if (lengthInput.value !== "") {
+          landingAutoAdvanceTimer = setTimeout(function() {
+            var allRows = container.querySelectorAll(".dimension-row");
+            var nextRow = allRows[idx + 1];
+            if (nextRow) {
+              var nextWidth = nextRow.querySelector(".landing-width");
+              if (nextWidth) { nextWidth.focus(); nextWidth.select(); }
+            } else {
+              addLandingEntry();
+            }
+          }, DIMENSION_AUTO_ADVANCE_MS);
+        }
+      });
+      lengthInput.addEventListener("focus", function() { clearTimeout(landingAutoAdvanceTimer); });
+    }
+    
+    if (removeBtn) {
+      removeBtn.addEventListener("click", function() {
+        currentLandingEntries.splice(idx, 1);
+        renderLandingEntries();
+        updateStairsCalc();
+      });
+    }
+  });
+}
+
+/** Update a single landing row's SF total. */
+function updateLandingRowTotal(rowEl) {
+  var wEl = rowEl.querySelector(".landing-width");
+  var lEl = rowEl.querySelector(".landing-length");
+  var w = toNum(wEl ? wEl.value : 0);
+  var l = toNum(lEl ? lEl.value : 0);
+  var sf = w * l;
+  var hasValue = w > 0 && l > 0;
+  
+  rowEl.classList.toggle("has-value", hasValue);
+  var totalEl = rowEl.querySelector(".dimension-total");
+  if (totalEl) totalEl.textContent = hasValue ? sf.toFixed(0) + " SF" : "0 SF";
+}
+
+/** Add a new mid landing entry. */
+function addLandingEntry() {
+  currentLandingEntries.push({ width: "", length: "" });
+  renderLandingEntries();
+  
+  // Focus the new width input
+  setTimeout(function() {
+    var container = document.getElementById("stair-landing-entries");
+    if (container) {
+      var rows = container.querySelectorAll(".dimension-row");
+      if (rows.length > 0) {
+        var lastWidth = rows[rows.length - 1].querySelector(".landing-width");
+        if (lastWidth) lastWidth.focus();
+      }
+    }
+  }, 50);
+}
+
 /** Add a new stair entry row with default values. */
 function addStairEntry() {
   currentStairEntries.push({ 
@@ -3532,7 +3885,21 @@ function addStairEntry() {
  * vs. available nose piece length.
  */
 function updateStairNoseCalc() {
-  if (!isHardSurfaceStairMode) return;
+  var stairNoseSection = document.getElementById("stair-nose-section");
+  
+  // Get total stair count
+  var totalStairCount = 0;
+  currentStairEntries.forEach(function(entry) {
+    totalStairCount += toNum(entry.count);
+  });
+  
+  // Hide section if not hard surface mode OR no stairs
+  if (!isHardSurfaceStairMode || totalStairCount === 0) {
+    if (stairNoseSection) stairNoseSection.style.display = "none";
+    if (!isHardSurfaceStairMode) return;
+  } else {
+    if (stairNoseSection) stairNoseSection.style.display = "";
+  }
   var noseLengthInput = document.getElementById("stair-nose-length-input");
   var noseCountEl = document.getElementById("stair-nose-count");
   var noseLength = toNum(noseLengthInput ? noseLengthInput.value : 0) || STAIR_NOSE_DEFAULTS.OTHER;
@@ -3760,7 +4127,7 @@ function updateStairsCalc() {
     return null;
   }
 
-  // &#8213;&#8213;&#8213; Hard surface stairs: calculate SF ———————————————————————
+  // ———— Hard surface stairs: calculate SF ———————————————————————
   if (isHardSurfaceStairMode) {
     var totalSF_HS = 0, totalStairs_HS = 0;
     var stairDetails = [];
@@ -3785,10 +4152,26 @@ function updateStairsCalc() {
         });
       }
     });
-    if (totalSF_HS > 0) {
+    
+    // Calculate landing SF
+    var landingSF = 0;
+    var landingDetails = [];
+    currentLandingEntries.forEach(function(entry) {
+      var w = toNum(entry.width);
+      var l = toNum(entry.length);
+      if (w > 0 && l > 0) {
+        var sf = w * l;
+        landingSF += sf;
+        landingDetails.push({ width: w, length: l, sf: sf });
+      }
+    });
+    
+    var grandTotalSF = totalSF_HS + landingSF;
+    
+    if (grandTotalSF > 0) {
       if (stairCalcResult) stairCalcResult.style.display = "block";
       if (stairSyResult) {
-        stairSyResult.innerHTML = '<span style="color:#15803d;">' + totalSF_HS.toFixed(1) + ' SF</span>';
+        stairSyResult.innerHTML = '<span style="color:#15803d;">' + grandTotalSF.toFixed(1) + ' SF</span>';
       }
       // Build detailed breakdown
       var detailParts = [];
@@ -3796,13 +4179,25 @@ function updateStairsCalc() {
         var pieceSize = d.widthIn + '" x ' + (d.treadIn + d.riserIn) + '"';
         detailParts.push(d.count + ' @ ' + pieceSize + ' = ' + d.sf.toFixed(1) + ' SF');
       });
-      var detailText = detailParts.join(' + ');
+      var stairDetailText = detailParts.length > 0 ? totalStairs_HS + ' stairs: ' + detailParts.join(' + ') : '';
+      
+      // Add landing details
+      var landingDetailParts = [];
+      landingDetails.forEach(function(ld) {
+        landingDetailParts.push(ld.width + "' x " + ld.length + "' = " + ld.sf.toFixed(1) + ' SF');
+      });
+      var landingDetailText = landingDetailParts.length > 0 ? 'Landings: ' + landingDetailParts.join(' + ') : '';
+      
       if (stairCalcLabel) {
-        stairCalcLabel.innerHTML = totalStairs_HS + ' stairs: ' + detailText;
+        var fullDetail = stairDetailText;
+        if (landingDetailText) {
+          fullDetail += (fullDetail ? '<br>' : '') + landingDetailText;
+        }
+        stairCalcLabel.innerHTML = fullDetail;
       }
       updateStairNoseCalc();
       updateStairDemoPrompt();
-      return { squareFeet: totalSF_HS, totalStairs: totalStairs_HS };
+      return { squareFeet: grandTotalSF, totalStairs: totalStairs_HS, landingSF: landingSF };
     }
     if (stairCalcResult) stairCalcResult.style.display = "none";
     updateStairNoseCalc();
@@ -3810,7 +4205,7 @@ function updateStairsCalc() {
     return null;
   }
 
-  // -- Neither carpet nor hard surface stair mode ------------------------
+  // No special stair mode - just hide the result
   if (stairCalcResult) stairCalcResult.style.display = "none";
   return null;
 }
@@ -3856,7 +4251,9 @@ async function renderAssemblyGrid() {
     html += '<label>Quantity:</label>';
     html += '<div style="position:relative;display:inline-flex;align-items:center;">';
     var currentQtyVal = primaryQtyEl ? primaryQtyEl.value : "";
-    if (!currentQtyVal) {
+    var gridQtyElExisting = document.getElementById("primary-item-qty-grid");
+    if (!currentQtyVal && gridQtyElExisting) currentQtyVal = gridQtyElExisting.value;
+    if (!currentQtyVal || toNum(currentQtyVal) <= 0) {
       var totalSF = 0;
       selectedAreas.forEach(function(area) {
         var m = roomMeasurements[area.id];
@@ -3865,7 +4262,11 @@ async function renderAssemblyGrid() {
       });
       if (isCarpetMode) {
         var totals = calculateTotalCarpetYardage();
-        currentQtyVal = totals.grandTotalSquareYards > 0 ? totals.grandTotalSquareYards.toFixed(2) : "";
+        if (currentOptimizedPlan) {
+          currentQtyVal = currentOptimizedPlan.totalSY > 0 ? currentOptimizedPlan.totalSY.toFixed(2) : "";
+        } else {
+          currentQtyVal = totals.grandTotalSquareYards > 0 ? totals.grandTotalSquareYards.toFixed(2) : "";
+        }
       } else {
         currentQtyVal = totalSF > 0 ? totalSF.toFixed(2) : "";
       }
@@ -3966,14 +4367,58 @@ function bindAssemblyGridEvents(container) {
     if (header) {
       header.addEventListener("click", function(e) {
         if (e.target.classList.contains("gi-qty-input")) return; // Don't toggle on qty click
-        assemblyGroupItems[giIdx].selected = !assemblyGroupItems[giIdx].selected;
-        section.classList.toggle("selected", assemblyGroupItems[giIdx].selected);
+        var gi = assemblyGroupItems[giIdx];
+        gi.selected = !gi.selected;
+        section.classList.toggle("selected", gi.selected);
         var checkbox = section.querySelector(".gi-checkbox");
-        if (checkbox) checkbox.innerHTML = assemblyGroupItems[giIdx].selected ? "&#10003;" : "";
+        if (checkbox) checkbox.innerHTML = gi.selected ? "&#10003;" : "";
+
+        // When activated, calculate qty from generateQty (FID 204)
+        if (gi.selected && (gi.currentQty === null || gi.currentQty === 0)) {
+          var primaryQtyEl = document.getElementById("primary-item-qty-grid") || document.getElementById("primary-qty");
+          var pQty = toNum(primaryQtyEl ? primaryQtyEl.value : 0);
+
+          if (gi.generateQty === 1) {
+            gi.currentQty = 1;
+          } else if (gi.generateQty > 0 && gi.generateQty < 1) {
+            gi.currentQty = Math.round((pQty * gi.generateQty) * 100) / 100;
+          } else {
+            gi.currentQty = pQty;
+          }
+
+          // Update GI qty input in the UI
+          if (qtyInput) qtyInput.value = gi.currentQty;
+
+          // Push GI qty down to all default-selected detail items using FID 20 rules
+          var giQty = gi.currentQty;
+          gi.groupDetails.forEach(function(gd, gdIdx) {
+            if (gd.isDefault) {
+              gd.selected = true;
+              if (gd.qty === 1) {
+                gd.currentQty = 1;
+              } else if (gd.qty > 0 && gd.qty < 1) {
+                gd.currentQty = Math.round((giQty * gd.qty) * 100) / 100;
+              } else {
+                gd.currentQty = giQty;
+              }
+            }
+          });
+
+          // Re-render detail items to reflect new qty and selection
+          section.querySelectorAll(".gd-item").forEach(function(gdItem) {
+            var gdIdx = parseInt(gdItem.dataset.gdIdx);
+            var gd = gi.groupDetails[gdIdx];
+            gdItem.classList.toggle("selected", gd.selected);
+            var gdCheckbox = gdItem.querySelector(".gd-checkbox");
+            if (gdCheckbox) gdCheckbox.innerHTML = gd.selected ? "&#10003;" : "";
+            var gdQtyInput = gdItem.querySelector(".gd-qty-input");
+            if (gdQtyInput && gd.currentQty !== null) gdQtyInput.value = gd.currentQty;
+          });
+        }
+
         updateGridSummary();
       });
     }
-
     // Group item qty input
     if (qtyInput) {
       qtyInput.addEventListener("click", function(e) { e.stopPropagation(); });
@@ -3998,6 +4443,12 @@ function bindAssemblyGridEvents(container) {
             ? "&#10003;" : "";
         }
         updateGridSummary();
+
+        // If a riser item was toggled, adjust primary qty
+        var toggledName = (assemblyGroupItems[giIdx].groupDetails[gdIdx].desc || assemblyGroupItems[giIdx].groupDetails[gdIdx].itemSku || "").toLowerCase();
+        if (toggledName.indexOf("riser") !== -1) {
+          adjustPrimaryQtyForRiser();
+        }
       });
 
       if (gdQtyInput) {
@@ -4130,7 +4581,8 @@ function aggregateMeasurementData() {
     if (m.demoType && m.demoType !== "none") {
       if (!data.demoTypes[m.demoType]) data.demoTypes[m.demoType] = 0;
       var demoSF = m.totalSF || 0;
-      if (m.stairsCalc) {
+      // Only add stair SF to room demo when stair demo is "same", "none", or unset
+      if (m.stairsCalc && (!m.stairDemoType || m.stairDemoType === "none" || m.stairDemoType === "same")) {
         demoSF += m.stairsCalc.squareFeet || (m.stairsCalc.squareYards || 0) * 9;
       }
       data.demoTypes[m.demoType] += demoSF;
@@ -4209,17 +4661,19 @@ function applyMeasurementDataToAssembly() {
       gi.currentQty = calculateCarpetPadQty();
     }
 
-    // Auto-select Carpet Stairs group item if stairs are measured
+    // Auto-select Carpet Stair Labor group item if stairs are measured (1:1 step count)
     if (isCarpetMode && data.totalStairsQty > 0) {
       var giCatLower = (gi.category || "").toLowerCase();
       var giNameLower = (gi.name || "").toLowerCase();
-      if (giCatLower === "carpet stairs" || giCatLower.includes("carpet stair")) {
-        // Prefer "Half Set" as default, otherwise take the first one
-        if (giNameLower.indexOf("half set") !== -1) {
-          gi.selected = true;
-          gi.currentQty = data.totalStairsQty;
-          carpetStairsSelected = true;
-        } else if (!carpetStairsSelected && !carpetStairsPending) {
+      // Priority 1: Match "Carpet Stair Labor" by name — qty = exact step count
+      if (giNameLower.indexOf("carpet stair labor") !== -1) {
+        gi.selected = true;
+        gi.currentQty = data.totalStairsQty;
+        carpetStairsSelected = true;
+      }
+      // Priority 2: Fallback to carpet stairs category match
+      else if (giCatLower === "carpet stairs" || giCatLower.includes("carpet stair")) {
+        if (!carpetStairsSelected && !carpetStairsPending) {
           carpetStairsPending = gi;
         }
       }
@@ -4250,12 +4704,17 @@ function applyMeasurementDataToAssembly() {
       if (isTransitionItem) {
         gi.selected = true;
         gi.currentQty = data.trimMoldingInstallCount;
-        // Also auto-select install labor detail items
+        // Select first group detail with molding sum, and install labor details
+        var firstDetailSet = false;
         gi.groupDetails.forEach(function(gd) {
           var gdName = (gd.desc || gd.itemSku || "").toLowerCase();
           if (gdName.indexOf("install") !== -1 && (gdName.indexOf("molding") !== -1 || gdName.indexOf("trim") !== -1)) {
             gd.selected = true;
             gd.currentQty = data.trimMoldingInstallCount;
+          } else if (!firstDetailSet) {
+            gd.selected = true;
+            gd.currentQty = data.trimMoldingInstallCount;
+            firstDetailSet = true;
           }
         });
       }
@@ -4346,9 +4805,9 @@ function applyMeasurementDataToAssembly() {
             gd.selected = true;
             gd.currentQty = roundedStairNose;
           }
-          // Riser items (e.g., Primed White Riser) get stair nose molding count
+          // Riser items (e.g., Primed White Riser) are optional - pre-fill qty but don't auto-select
           else if (gdName.indexOf("riser") !== -1) {
-            gd.selected = true;
+            gd.selected = false;
             gd.currentQty = roundedStairNose;
           }
           // Other stair items (treads, steps, etc.) get actual stair count
@@ -4369,31 +4828,47 @@ function applyMeasurementDataToAssembly() {
 
   // -- Apply default quantities to selected items without explicit qty ---
   var primaryQtyEl = document.getElementById("primary-qty");
+  var gridQtyEl = document.getElementById("primary-item-qty-grid");
   var baseSF = data.totalSF;
   // Add stair SF for hard surface flooring
   if (isHardSurfaceFlooringCategory(currentPrimaryItem ? currentPrimaryItem.category : null)) {
     baseSF += data.totalStairsSF || 0;
   }
-  var primaryQty = toNum(primaryQtyEl ? primaryQtyEl.value : 0) || baseSF;
+  var primaryQty = toNum(gridQtyEl ? gridQtyEl.value : 0)
+    || toNum(primaryQtyEl ? primaryQtyEl.value : 0)
+    || baseSF;
+  if (isCarpetMode && primaryQty <= 0) {
+    var carpetTotals = calculateTotalCarpetYardage();
+    primaryQty = carpetTotals.grandTotalSquareYards;
+  }
 
   assemblyGroupItems.forEach(function(gi) {
-    if (gi.selected && gi.currentQty === null) {
+    if (gi.selected && (gi.currentQty === null || gi.currentQty === 0)) {
       if (gi.generateQty === 1) {
         gi.currentQty = 1;
       } else if (gi.generateQty > 0 && gi.generateQty < 1) {
         // Fractional generateQty = percentage of primary qty
         gi.currentQty = Math.round((primaryQty * gi.generateQty) * 100) / 100;
       } else {
+        // generateQty is null, 0, or > 1: pass through primaryQty
         gi.currentQty = primaryQty;
       }
     }
 
-    // Apply detail item quantities based on parent group item qty
-    var giQty = gi.currentQty !== null ? gi.currentQty : primaryQty;
+    // Group Details qty based on GD FID 20 (gd.qty):
+    //   null/0: inherit GI qty directly
+    //   1: literal value of 1
+    //   < 1: multiply GI qty × gd.qty
+    var giQty = (gi.currentQty !== null && gi.currentQty > 0) ? gi.currentQty : primaryQty;
     gi.groupDetails.forEach(function(gd) {
-      if (gd.selected && gd.currentQty === null) {
-        var multiplier = gd.qty || 1;
-        gd.currentQty = Math.round((giQty * multiplier) * 100) / 100;
+      if (gd.selected && (gd.currentQty === null || gd.currentQty === 0)) {
+        if (gd.qty === 1) {
+          gd.currentQty = 1;
+        } else if (gd.qty > 0 && gd.qty < 1) {
+          gd.currentQty = Math.round((giQty * gd.qty) * 100) / 100;
+        } else {
+          gd.currentQty = giQty;
+        }
       }
     });
   });
@@ -4405,6 +4880,68 @@ function applyMeasurementDataToAssembly() {
  * @param {string} fixtureType - Fixture type key (e.g. "toilet", "pedestal", "appliances")
  * @returns {boolean}
  */
+
+/**
+ * Calculate total riser SF across all rooms.
+ * Riser area = count × (stairWidth / 12) × (riserHeight / 12) per entry.
+ * @returns {number} Total riser square feet
+ */
+function calculateRiserSF() {
+  var riserSF = 0;
+  selectedAreas.forEach(function(area) {
+    var m = roomMeasurements[area.id];
+    if (!m || !m.stairEntries) return;
+    m.stairEntries.forEach(function(entry) {
+      var count = toNum(entry.count);
+      var widthIn = toNum(entry.width) || DEFAULT_STAIR.WIDTH_IN;
+      var riserIn = toNum(entry.riser) || DEFAULT_STAIR.RISER_IN;
+      if (count > 0) {
+        riserSF += count * (widthIn / 12) * (riserIn / 12);
+      }
+    });
+  });
+  return riserSF;
+}
+
+/**
+ * Check if any riser detail item is currently selected in the assembly grid.
+ * @returns {boolean}
+ */
+function isRiserSelectedInGrid() {
+  for (var i = 0; i < assemblyGroupItems.length; i++) {
+    var gi = assemblyGroupItems[i];
+    for (var j = 0; j < gi.groupDetails.length; j++) {
+      var gd = gi.groupDetails[j];
+      var gdName = (gd.desc || gd.itemSku || "").toLowerCase();
+      if (gdName.indexOf("riser") !== -1 && gd.selected) return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Adjust the primary item quantity when a riser item is toggled.
+ * If riser is selected, subtract riser SF from the stair contribution.
+ * If riser is deselected, restore full stair SF.
+ */
+function adjustPrimaryQtyForRiser() {
+  if (!isHardSurfaceFlooringCategory(currentPrimaryItem ? currentPrimaryItem.category : null)) return;
+
+  var data = aggregateMeasurementData();
+  var baseSF = data.totalSF + (data.totalStairsSF || 0);
+
+  if (isRiserSelectedInGrid()) {
+    baseSF -= calculateRiserSF();
+  }
+
+  if (baseSF < 0) baseSF = 0;
+
+  var primaryQtyEl = document.getElementById("primary-qty");
+  var gridQtyInput = document.getElementById("primary-item-qty-grid");
+  if (primaryQtyEl) primaryQtyEl.value = baseSF.toFixed(2);
+  if (gridQtyInput) gridQtyInput.value = baseSF.toFixed(2);
+}
+
 function matchFixtureName(name, fixtureType) {
   if (fixtureType === "toilet") return name.indexOf("toilet") !== -1 || name.indexOf("wc") !== -1;
   if (fixtureType === "pedestal") return name.indexOf("pedestal") !== -1 || name.indexOf("ped sink") !== -1;
@@ -4475,6 +5012,12 @@ function populateReview() {
  * Save the bid item and all estimate details to QuickBase, upload photos,
  * and run post-save helpers.
  */
+
+function cleanRel(v) {
+  v = (v == null) ? "" : String(v).trim();
+  return (v && v !== "0") ? v : "";
+}
+
 async function saveAndContinue() {
   try {
     showLoad("Saving bid items...");
@@ -4494,80 +5037,125 @@ async function saveAndContinue() {
     var custComment = custCommentEl ? custCommentEl.value : "";
     var workComment = workCommentEl ? workCommentEl.value : "";
 
-    // -- Create bid item record ------------------------------------------
-    var biFields = {};
-    biFields[BI.REL_PROJ] = projectId;
-    biFields[BI.ITEM_SKU] = currentPrimaryItem.sku;
-    biFields[BI.QTY] = toQBNum(primaryQty);
-    biFields[BI.WASTE] = toQBNum(currentPrimaryItem.wastePct || 0);
-    biFields[BI.UOM] = currentPrimaryItem.uom || "SF";
-    biFields[BI.WA_TXT] = waText;
-
-    // Link to first selected group item (if assembly was chosen)
-    var selectedAssemblyEl = document.getElementById("assembly-select");
-    if (selectedAssemblyEl && selectedAssemblyEl.value) {
-      var selectedGI = assemblyGroupItems.find(function(gi) { return gi.selected; });
-      if (selectedGI) biFields[BI.REL_GROUP_ITEM] = selectedGI.giRid;
-    }
-
-    var bidItemRid = await qbAdd(DBID_BID_ITEMS, biFields);
-
-    // -- Create estimate detail records ----------------------------------
+    // Track all created Bid Item RIDs
+    var allBidItemRids = [];
+    var primaryBidItemRid = null;
+    
+    // Get max sequence for estimate details
     globalEstimateDetailSequence = await getMaxEstimateDetailSequence(projectId);
     var seq = globalEstimateDetailSequence;
 
-    // Primary item detail
-    seq++;
-    var edPrimary = {};
-    edPrimary[ED.REL_PROJ] = projectId;
-    edPrimary[ED.REL_BI] = bidItemRid;
-    edPrimary[ED.REL_ITEM] = currentPrimaryItem.id;
-    edPrimary[ED.SKU] = currentPrimaryItem.sku;
-    edPrimary[ED.DESC] = currentPrimaryItem.desc;
-    edPrimary[ED.QTY] = toQBNum(primaryQty);
-    edPrimary[ED.COST] = toQBNum(currentPrimaryItem.cost);
-    edPrimary[ED.RATE] = toQBNum(currentPrimaryItem.rate);
-    edPrimary[ED.QTY_UOM] = currentPrimaryItem.qtyUom || "SF";
-    edPrimary[ED.UOM] = currentPrimaryItem.uom || "SF";
-    edPrimary[ED.WASTE] = toQBNum(currentPrimaryItem.wastePct || 0);
-    edPrimary[ED.CUST] = custComment;
-    edPrimary[ED.WORK] = workComment;
-    edPrimary[ED.RES] = currentPrimaryItem.resourceRid || "";
-    edPrimary[ED.SEQUENCE] = seq;
-    await qbAdd(DBID_EST_DETAILS, edPrimary);
+    // Flag to track if we've processed the first Group Item (which gets the Primary Item)
+    var isFirstGroupItem = true;
 
-    // Assembly detail items
+    // =========================================================================
+    // PROCESS EACH SELECTED GROUP ITEM &#8594; BID ITEM
+    // =========================================================================
     for (var gi_i = 0; gi_i < assemblyGroupItems.length; gi_i++) {
       var gi = assemblyGroupItems[gi_i];
       if (!gi.selected) continue;
+
+      var giQty = gi.currentQty !== null ? gi.currentQty : primaryQty;
+
+      // -----------------------------------------------------------------------
+      // CREATE BID ITEM FOR THIS GROUP ITEM
+      // -----------------------------------------------------------------------
+      var biFields = {};
+      biFields[BI.REL_PROJ] = projectId;
+      biFields[BI.REL_GROUP_ITEM] = gi.giRid;  // FID 967
+      biFields[BI.WA_ENT] = waText;             // FID 7
+      biFields[BI.WA_TXT] = waText;             // FID 608
+      
+      if (isFirstGroupItem) {
+        // First Group Item uses Primary Item's SKU and UOM, but Group Item's Waste
+        biFields[BI.ITEM_SKU] = currentPrimaryItem.sku;
+        biFields[BI.QTY] = toQBNum(primaryQty);
+        biFields[BI.WASTE] = toQBNum(gi.wastePct || 0);  // Use Group Item's waste
+        biFields[BI.UOM] = currentPrimaryItem.uom || "SF";
+      } else {
+        // Subsequent Group Items use first selected Group Detail's info
+        var firstDetail = gi.groupDetails.find(function(gd) { return gd.selected; });
+        biFields[BI.ITEM_SKU] = firstDetail ? (firstDetail.itemSku || gi.name) : gi.name;
+        biFields[BI.QTY] = toQBNum(giQty);
+        biFields[BI.WASTE] = toQBNum(gi.wastePct || 0);
+        biFields[BI.UOM] = gi.uom || "EA";
+      }
+
+      var bidItemRid = await qbAdd(DBID_BID_ITEMS, biFields);
+      allBidItemRids.push(bidItemRid);
+      
+      // Track the first bid item for photo uploads
+      if (isFirstGroupItem) {
+        primaryBidItemRid = bidItemRid;
+      }
+
+      // -----------------------------------------------------------------------
+      // CREATE ESTIMATE DETAILS FOR THIS BID ITEM
+      // -----------------------------------------------------------------------
+      
+      // If this is the FIRST Group Item, add Primary Item as first Estimate Detail
+      if (isFirstGroupItem) {
+        seq++;
+        var edPrimary = {};
+        edPrimary[ED.REL_PROJ] = projectId;
+        edPrimary[ED.REL_BI] = bidItemRid;
+        edPrimary[ED.REL_ITEM] = cleanRel(currentPrimaryItem.id);
+        edPrimary[ED.DESC] = currentPrimaryItem.desc;
+        edPrimary[ED.QTY] = toQBNum(primaryQty);
+        edPrimary[ED.COST] = toQBNum(currentPrimaryItem.cost);
+        edPrimary[ED.RATE] = toQBNum(currentPrimaryItem.rate);
+        edPrimary[ED.QTY_UOM] = currentPrimaryItem.qtyUom || "SF";
+        edPrimary[ED.UOM] = currentPrimaryItem.uom || "SF";
+        edPrimary[ED.WASTE] = toQBNum(gi.wastePct || 0);  // Use Group Item's waste
+        edPrimary[ED.CUST] = custComment;
+        edPrimary[ED.WORK] = workComment;
+        edPrimary[ED.RES] = currentPrimaryItem.resourceRid || "";
+        edPrimary[ED.SEQUENCE] = seq;
+        await qbAdd(DBID_EST_DETAILS, edPrimary);
+        
+        isFirstGroupItem = false;  // Mark that we've processed the first one
+      }
+
+      // Add Estimate Details for each selected Group Detail
       for (var gd_i = 0; gd_i < gi.groupDetails.length; gd_i++) {
         var gd = gi.groupDetails[gd_i];
         if (!gd.selected) continue;
+
         seq++;
-        var qty = gd.currentQty !== null ? gd.currentQty
-          : (gi.currentQty !== null ? gi.currentQty : primaryQty);
+        var gdQty = gd.currentQty !== null ? gd.currentQty : giQty;
 
         var edFields = {};
         edFields[ED.REL_PROJ] = projectId;
         edFields[ED.REL_BI] = bidItemRid;
-        edFields[ED.REL_ITEM] = gd.itemRid;
-        edFields[ED.SKU] = gd.itemSku;
+        edFields[ED.REL_ITEM] = cleanRel(gd.itemRid);
         edFields[ED.DESC] = gd.desc || gd.purchDesc || "";
-        edFields[ED.QTY] = toQBNum(qty);
+        edFields[ED.QTY] = toQBNum(gdQty);
         edFields[ED.COST] = toQBNum(gd.cost);
         edFields[ED.RATE] = toQBNum(gd.rate);
         edFields[ED.QTY_UOM] = gd.qtyUom || "EA";
         edFields[ED.UOM] = gd.uom || "EA";
         edFields[ED.WASTE] = toQBNum(gd.wastePct || 0);
+        edFields[ED.RES] = currentPrimaryItem.resourceRid || "";
         edFields[ED.SEQUENCE] = seq;
         await qbAdd(DBID_EST_DETAILS, edFields);
       }
+
+      // -----------------------------------------------------------------------
+      // POST-SAVE: Copy Related Task from GI_REL_TASK to REL_TASK
+      // -----------------------------------------------------------------------
+      await runBidItemPostSaveHelpers(bidItemRid, waText);
     }
 
-// &#8213;&#8213;&#8213; Upload photos as attachments --------------------
-    await uploadPhotosToAttachments(bidItemRid);
+    // =========================================================================
+    // UPLOAD PHOTOS (link to primary/first bid item)
+    // =========================================================================
+    if (primaryBidItemRid) {
+      await uploadPhotosToAttachments(primaryBidItemRid);
+    }
 
-    // --- Save Measures & Measure Details ---
+    // =========================================================================
+    // SAVE MEASURES & MEASURE DETAILS
+    // =========================================================================
     try {
       var measureData = aggregateMeasurementData();
       
@@ -4596,10 +5184,11 @@ async function saveAndContinue() {
       meFields[ME.REL_ITEM] = currentPrimaryItem.id;
       meFields[ME.ITEM_SKU] = currentPrimaryItem.sku || "";
       meFields[ME.ITEM_DESC] = currentPrimaryItem.desc || "";
+      meFields[ME.TYPE] = currentPrimaryItem.category || "";
       meFields[ME.PRIMARY_QTY] = toQBNum(primaryQty);
       meFields[ME.PM_WIDTH] = toQBNum(patternMatchWidth);
       meFields[ME.PM_LENGTH] = toQBNum(patternMatchLength);
-      meFields[ME.AREA] = waText;
+      meFields[ME.MEASURED_AREAS] = waText;
       meFields[ME.WIDTH] = toQBNum(totalWidth);
       meFields[ME.LENGTH] = toQBNum(totalLength);
       meFields[ME.DIRECTION] = currentCarpetDirection || "";
@@ -4614,7 +5203,6 @@ async function saveAndContinue() {
       if (measureData.moldingInstallCount > 0) {
         meFields[ME.MEASURED_MOLDINGS] = "1";
         meFields[ME.MOLDING_COUNT] = toQBNum(measureData.moldingInstallCount);
-        // Calculate total molding LF (assuming each molding piece averages ~8ft)
         var totalMoldingLF = 0;
         Object.entries(measureData.moldings).forEach(function(pair) {
           totalMoldingLF += pair[1] * 8;
@@ -4624,7 +5212,16 @@ async function saveAndContinue() {
       
       meFields[ME.STAIR_QTY] = toQBNum(measureData.totalStairsQty);
       meFields[ME.STAIR_WIDTH] = toQBNum(totalStairWidth);
-      meFields[ME.NOTES] = workComment || "";
+      var aggregatedNotes = [];
+      selectedAreas.forEach(function(area) {
+        var rm = roomMeasurements[area.id];
+        if (rm && rm.notes && rm.notes.trim()) {
+          var roomLabel = area.closetLabel ? area.label + " " + area.closetLabel : area.label;
+          aggregatedNotes.push(roomLabel + ": " + rm.notes.trim());
+        }
+      });
+      if (workComment) aggregatedNotes.push("Work: " + workComment);
+      meFields[ME.NOTES] = aggregatedNotes.join("\n") || "";
 
       var measureRid = await qbAdd(DBID_MEASURES, meFields);
 
@@ -4657,7 +5254,6 @@ async function saveAndContinue() {
         mdFields[MD.NOTES] = rm.notes || "";
         mdFields[MD.CARPET_DIRECTION] = rm.carpetDirection || "";
 
-        // Dimensions
         if (rm.dimensions && rm.dimensions.length > 0) {
           mdFields[MD.DIMENSIONS_JSON] = JSON.stringify(rm.dimensions);
           var maxW = 0, maxL = 0;
@@ -4670,8 +5266,8 @@ async function saveAndContinue() {
           mdFields[MD.WIDTH] = toQBNum(maxW);
           mdFields[MD.LENGTH] = toQBNum(maxL);
         }
+        mdFields[MD.NOTES] = (rm.notes && rm.notes.trim()) ? rm.notes.trim() : "";
 
-        // Carpet calculations
         if (rm.carpetCalc) {
           mdFields[MD.CARPET_STRIPS] = toQBNum(rm.carpetCalc.strips || 0);
           mdFields[MD.CARPET_CUT_LENGTH] = toQBNum(rm.carpetCalc.cutLength || 0);
@@ -4679,7 +5275,6 @@ async function saveAndContinue() {
           mdFields[MD.CARPET_SY] = toQBNum(rm.carpetCalc.squareYards || 0);
         }
 
-        // Moldings
         if (rm.moldings) {
           var totalMoldingQty = 0;
           if (rm.moldings['t-molding']) {
@@ -4697,14 +5292,12 @@ async function saveAndContinue() {
           mdFields[MD.MOLDING_QTY] = toQBNum(totalMoldingQty);
         }
 
-        // Fixtures
         if (rm.fixtures) {
           if (rm.fixtures['toilet']) mdFields[MD.TOILET_QTY] = toQBNum(rm.fixtures['toilet']);
           if (rm.fixtures['pedestal']) mdFields[MD.PEDESTAL_QTY] = toQBNum(rm.fixtures['pedestal']);
           if (rm.fixtures['appliances']) mdFields[MD.APPLIANCE_QTY] = toQBNum(rm.fixtures['appliances']);
         }
 
-        // Stairs
         if (rm.stairsCalc) {
           mdFields[MD.STAIR_SY] = toQBNum(rm.stairsCalc.squareYards || 0);
         }
@@ -4726,11 +5319,8 @@ async function saveAndContinue() {
       console.error("Error saving measurements:", measureErr);
     }
 
-    // &#8213;&#8213;&#8213; Post-save helpers (copy related task, populate sales desc) -------
-    await runBidItemPostSaveHelpers(bidItemRid, waText);
-
     hideLoad();
-    toast("Bid items saved successfully!", "success");
+    toast("Saved " + allBidItemRids.length + " bid item(s) successfully!", "success");
 
     setTimeout(function() { resetForNextItem(); }, POST_SAVE_RESET_DELAY_MS);
   } catch (err) {
@@ -4810,14 +5400,38 @@ async function uploadPhotosToAttachments(bidItemRid) {
 async function fetchBidItemFieldValue(bidItemRid, fid) {
   if (!bidItemRid || !fid) return "";
   try {
-    var xml = await qbQuery(DBID_BID_ITEMS, "{'3'.EX.'" + bidItemRid + "'}", String(fid), "num-1");
+    var url = "/db/" + DBID_BID_ITEMS
+      + "?a=API_DoQuery&useFids=1"
+      + "&apptoken=" + encodeURIComponent(APP_TOKEN)
+      + "&query=" + encodeURIComponent("{'3'.EX.'" + bidItemRid + "'}")
+      + "&clist=" + encodeURIComponent(String(fid))
+      + "&options=num-1";
+    
+    var response = await fetch(url, { credentials: "include" });
+    
+    // Handle 403 and other error responses gracefully
+    if (!response.ok) {
+      console.warn("fetchBidItemFieldValue: HTTP " + response.status + " for FID " + fid);
+      return "";
+    }
+    
+    var xml = new DOMParser().parseFromString(await response.text(), "text/xml");
+    var errNode = xml.querySelector("errcode");
+    if (errNode && errNode.textContent !== "0") {
+      console.warn("fetchBidItemFieldValue: QB error for FID " + fid);
+      return "";
+    }
+    
     var rec = xml.querySelector("record");
     if (rec) {
       var fieldNode = rec.querySelector('f[id="' + fid + '"]');
       return fieldNode ? fieldNode.textContent : "";
     }
     return "";
-  } catch (e) { return ""; }
+  } catch (e) {
+    console.warn("fetchBidItemFieldValue: Exception for FID " + fid, e);
+    return "";
+  }
 }
 
 /**
@@ -4840,30 +5454,51 @@ async function copyGroupItemRelatedTaskIntoRelatedTask(bidItemRid) {
  * Retries up to 4 times with increasing delays.
  */
 async function populateSalesDescriptionFromCombinedText(bidItemRid, workAreas) {
-  for (var attempt = 0; attempt < COMBINED_TEXT_POLL_DELAYS.length; attempt++) {
-    var combinedText = await fetchBidItemFieldValue(bidItemRid, BI.TOTEXT_COMBINED);
-    var preloadedText = await fetchBidItemFieldValue(bidItemRid, BI.WA_PRELOADED);
+  try {
+    // Query all Estimate Details for this Bid Item
+    var clist = [ED.DESC, ED.EXCLUDE_FROM_SALES, ED.SEQUENCE].join(".");
+    var xml = await qbQuery(
+      DBID_EST_DETAILS,
+      "{'" + ED.REL_BI + "'.EX.'" + bidItemRid + "'}",
+      clist,
+      "slist." + ED.SEQUENCE
+    );
 
-    if (combinedText) {
-      var salesDesc = combinedText;
-      if (preloadedText && preloadedText.indexOf("{insert}") !== -1) {
-        salesDesc = preloadedText.replace("{insert}", workAreas || "") + "\n" + combinedText;
-      } else if (preloadedText) {
-        salesDesc = preloadedText + " " + (workAreas || "") + "\n" + combinedText;
+    var descriptions = [];
+    xml.querySelectorAll("record").forEach(function(rec) {
+      var excludeNode = rec.querySelector('f[id="' + ED.EXCLUDE_FROM_SALES + '"]');
+      var excludeValue = excludeNode ? excludeNode.textContent.trim().toLowerCase() : "";
+      
+      // Skip if FID 92 is checked (value is "1", "true", or "yes")
+      if (excludeValue === "1" || excludeValue === "true" || excludeValue === "yes") {
+        return;
       }
 
-      try {
-        var fields = {};
-        fields[BI.SALES] = salesDesc;
-        await qbEdit(DBID_BID_ITEMS, bidItemRid, fields);
-      } catch (e) { /* non-critical */ }
-      return;
+      var descNode = rec.querySelector('f[id="' + ED.DESC + '"]');
+      var desc = descNode ? descNode.textContent.trim() : "";
+
+      if (desc) {
+        descriptions.push(desc);
+      }
+    });
+
+    // Build final sales description: Work Areas on first line, then descriptions
+    var salesDesc = "";
+    if (workAreas) {
+      salesDesc = workAreas;
+    }
+    if (descriptions.length > 0) {
+      if (salesDesc) salesDesc += "\n";
+      salesDesc += descriptions.join("\n");
     }
 
-    // Wait before retrying
-    if (attempt < COMBINED_TEXT_POLL_DELAYS.length - 1) {
-      await new Promise(function(r) { setTimeout(r, COMBINED_TEXT_POLL_DELAYS[attempt]); });
+    if (salesDesc) {
+      var fields = {};
+      fields[BI.SALES] = salesDesc;
+      await qbEdit(DBID_BID_ITEMS, bidItemRid, fields);
     }
+  } catch (e) {
+    console.warn("populateSalesDescriptionFromCombinedText error:", e);
   }
 }
 
@@ -5123,12 +5758,23 @@ function autoPopulateQtyFromMeasurements() {
   if (primaryQtyEl) {
     if (isCarpetMode) {
       var totals = calculateTotalCarpetYardage();
-      primaryQtyEl.value = totals.grandTotalSquareYards.toFixed(2);
-      if (qtySourceEl) {
-        qtySourceEl.textContent = "From " + measuredCount + " measured room"
-          + (measuredCount !== 1 ? "s" : "") + " ("
-          + totals.totalStrips + " cuts, "
-          + totals.totalLinearFeet.toFixed(0) + " LF)";
+      // Use optimized plan quantities if available, otherwise simple calculation
+      if (currentOptimizedPlan) {
+        primaryQtyEl.value = currentOptimizedPlan.totalSY.toFixed(2);
+        if (qtySourceEl) {
+          qtySourceEl.textContent = "From " + measuredCount + " measured room"
+            + (measuredCount !== 1 ? "s" : "") + " ("
+            + currentOptimizedPlan.cuts.length + " cuts, "
+            + currentOptimizedPlan.totalLinearFt.toFixed(0) + " LF)";
+        }
+      } else {
+        primaryQtyEl.value = totals.grandTotalSquareYards.toFixed(2);
+        if (qtySourceEl) {
+          qtySourceEl.textContent = "From " + measuredCount + " measured room"
+            + (measuredCount !== 1 ? "s" : "") + " ("
+            + totals.totalStrips + " cuts, "
+            + totals.totalLinearFeet.toFixed(0) + " LF)";
+        }
       }
     } else {
       primaryQtyEl.value = totalSF > 0 ? totalSF.toFixed(2) : "";
@@ -5191,10 +5837,21 @@ function buildMeasurementDataCard() {
   var data = aggregateMeasurementData();
   var html = "";
 
-  // Total floor area
+  // Total floor area (include stair SF for hard surface flooring)
+  var displayTotalSF = data.totalSF;
+  if (isHardSurfaceFlooringCategory(currentPrimaryItem ? currentPrimaryItem.category : null)) {
+    displayTotalSF += data.totalStairsSF || 0;
+  }
   html += '<div class="measurement-data-row">'
     + '<span class="label"><span class="icon">&#128207;</span> Total Floor Area</span>'
-    + '<span class="value">' + Math.round(data.totalSF) + ' SF</span></div>';
+    + '<span class="value">' + Math.round(displayTotalSF) + ' SF</span></div>';
+
+  // Stair area (shown separately)
+  if (data.totalStairsSF > 0) {
+    html += '<div class="measurement-data-row">'
+      + '<span class="label"><span class="icon">&#129692;</span> Stair Area</span>'
+      + '<span class="value">' + Math.round(data.totalStairsSF) + ' SF</span></div>';
+  }
 
   // Carpet yardage
   if (isCarpetMode && data.totalCarpetSY > 0) {
@@ -5563,17 +6220,35 @@ function bindResourceFilterEvents() {
 
 /** Bind carpet width and pattern match input events. */
 function bindCarpetParameterEvents() {
-  var carpetWidthInput = document.getElementById("carpet-width-input");
-  if (carpetWidthInput) {
-    carpetWidthInput.addEventListener("input", function() {
-      carpetWidth = toNum(carpetWidthInput.value) || DEFAULT_CARPET_WIDTH_FT;
-    });
+  var carpetWidthFtInput = document.getElementById("carpet-width-ft-input");
+  var carpetWidthInInput = document.getElementById("carpet-width-in-input");
+  
+  function updateCarpetWidthFromInputs() {
+    var ft = toNum(carpetWidthFtInput ? carpetWidthFtInput.value : 12);
+    var inches = toNum(carpetWidthInInput ? carpetWidthInInput.value : 0);
+    carpetWidth = ft + (inches / 12);
+    if (carpetWidth <= 0) carpetWidth = DEFAULT_CARPET_WIDTH_FT;
+  }
+  
+  if (carpetWidthFtInput) {
+    carpetWidthFtInput.addEventListener("input", updateCarpetWidthFromInputs);
+  }
+  if (carpetWidthInInput) {
+    carpetWidthInInput.addEventListener("input", updateCarpetWidthFromInputs);
   }
 
   var pmLengthInput = document.getElementById("carpet-pm-length-input");
   if (pmLengthInput) {
     pmLengthInput.addEventListener("input", function() {
       patternMatchLength = toNum(pmLengthInput.value) || 0;
+    });
+  }
+
+  var seamInput = document.getElementById("carpet-seam-allowance-input");
+  if (seamInput) {
+    seamInput.addEventListener("input", function() {
+      SEAM_ALLOWANCE_IN = toNum(seamInput.value);
+      if (SEAM_ALLOWANCE_IN < 0) SEAM_ALLOWANCE_IN = 0;
     });
   }
 }
@@ -5702,8 +6377,14 @@ function bindNavigationEvents() {
   if (btnClose) {
     btnClose.addEventListener("click", function() {
       if (confirm("Close without saving?")) {
-        window.close();
-        if (window.opener) window.opener.focus();
+        if (projectId) {
+          window.location.href = "/db/" + DBID_PROJECTS + "?a=dr&rid=" + projectId;
+        } else if (window.opener) {
+          window.close();
+          window.opener.focus();
+        } else {
+          window.history.back();
+        }
       }
     });
   }
@@ -5721,6 +6402,7 @@ function bindMeasureModalEvents() {
   bind("measure-save-btn", saveMeasurements);
   bind("add-dimension-btn", addDimensionRow);
   bind("add-stair-btn", addStairEntry);
+  bind("add-landing-btn", addLandingEntry);
   bindStairDemoEvents();
 
   // Carpet direction buttons
