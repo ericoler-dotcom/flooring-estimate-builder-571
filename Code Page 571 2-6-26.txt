@@ -155,6 +155,18 @@
     .measure-modal-title { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
     .measure-modal-close { width: 40px; height: 40px; border-radius: var(--radius-full); background: var(--gray-100); border: none; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .measure-modal-body { flex: 1; overflow-y: auto; }
+    /* Room Diagram with Door Markers */
+    .room-diagram-section { display: none; margin-bottom: 16px; }
+    .room-diagram-section.show { display: block; }
+    .room-diagram-title { font-size: 14px; font-weight: 600; color: var(--gray-700); margin-bottom: 8px; }
+    .room-diagram-container { background: #f8fafc; border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: 12px; text-align: center; }
+    #room-diagram-svg { width: 100%; max-width: 300px; height: 200px; }
+    .room-diagram-actions { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+    .door-add-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: var(--radius-md); border: 1px solid var(--gray-300); background: white; font-size: 14px; font-weight: 500; cursor: pointer; color: var(--gray-700); transition: all 0.2s; }
+    .door-add-btn:hover { background: var(--gray-50); }
+    .door-add-btn.active { background: #e53e3e; color: white; border-color: #e53e3e; }
+    .door-hint { display: none; font-size: 13px; color: #e53e3e; font-weight: 500; }
+    .door-hint.show { display: inline; }
     .measure-product-reminder { background: linear-gradient(135deg, #fef3c7, #fde68a); border: 2px solid var(--amber-500); border-radius: var(--radius-md); padding: 12px 16px; margin-bottom: 12px; text-align: center; transition: all 0.3s; }
     .measure-product-reminder.has-dimensions { background: linear-gradient(135deg, #dcfce7, #bbf7d0); border-color: var(--green-500); }
     .measure-product-reminder .reminder-label { font-size: 11px; font-weight: 600; color: #92400e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
@@ -276,7 +288,151 @@
     .molding-btn.minus:hover { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
     .molding-btn.plus:hover { background: var(--green-100); border-color: var(--green-400); color: var(--green-600); }
     .molding-value { min-width: 50px; padding: 6px 10px; font-size: 16px; font-weight: 700; text-align: center; background: var(--gray-50); border-radius: var(--radius-sm); }
-    .carpet-diagram-section { margin-top: 20px; padding: 16px; background: white; border-radius: var(--radius-lg); border: 2px solid var(--green-500); }
+/* &#9472;&#9472; Room Diagram & Door Markers &#9472;&#9472; */
+.room-diagram-section {
+  margin: 12px 0;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+.room-diagram-section h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: #555;
+}
+.room-diagram-container {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+}
+.room-diagram-container svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.room-wall {
+  stroke: #333;
+  stroke-width: 3;
+  fill: none;
+  cursor: pointer;
+}
+.room-wall:hover {
+  stroke: #007bff;
+  stroke-width: 4;
+}
+.room-wall.door-placement-active {
+  stroke: #28a745;
+  stroke-width: 4;
+  animation: wallPulse 1s infinite;
+}
+@keyframes wallPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.room-fill {
+  fill: #fff;
+  stroke: none;
+}
+.room-label {
+  font-size: 11px;
+  fill: #888;
+  text-anchor: middle;
+  pointer-events: none;
+}
+.door-marker {
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.door-marker:hover {
+  transform: scale(1.2);
+}
+.door-marker-icon {
+  font-size: 18px;
+}
+.room-add-btn {
+  cursor: pointer;
+}
+.room-add-btn circle {
+  fill: #007bff;
+  transition: fill 0.15s;
+}
+.room-add-btn:hover circle {
+  fill: #0056b3;
+}
+.room-add-btn text {
+  fill: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+.door-feature-menu {
+  position: absolute;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  padding: 8px;
+  z-index: 100;
+  display: none;
+}
+.door-feature-menu.active {
+  display: block;
+}
+.door-feature-menu button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.door-feature-menu button:hover {
+  background: #f0f0f0;
+}
+.door-placement-banner {
+  background: #d4edda;
+  color: #155724;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  text-align: center;
+  margin-top: 8px;
+  display: none;
+}
+.door-placement-banner.active {
+  display: block;
+}
+.door-list {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #555;
+}
+.door-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  background: #fff;
+  border-radius: 4px;
+  margin: 4px 0;
+  border: 1px solid #e0e0e0;
+}
+.door-list-item .remove-door {
+  color: #dc3545;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0 4px;
+}
+    
+.carpet-diagram-section { margin-top: 20px; padding: 16px; background: white; border-radius: var(--radius-lg); border: 2px solid var(--green-500); }
     .carpet-diagram-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
     .carpet-diagram-title { font-size: 16px; font-weight: 700; color: #166534; display: flex; align-items: center; gap: 8px; }
     .carpet-diagram-actions { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -595,7 +751,22 @@
           <div class="carpet-specs-row" id="carpet-specs-row"><div class="carpet-spec"><div class="carpet-spec-value" id="modal-carpet-width">12'</div><div class="carpet-spec-label">Roll Width</div></div><div class="carpet-spec"><div class="carpet-spec-value" id="modal-carpet-pm">0"</div><div class="carpet-spec-label">Pattern Match</div></div></div>
         </div>
         <div class="stair-landing-hint" id="stair-landing-hint" style="display: none;">Measure the stair landings here and the stairs below.</div><div class="measure-section"><div class="measure-section-title dimension-title" id="dimension-section-title"><span class="icon">&#128208;</span> Dimensions (Width x Length)</div><div class="dimension-grid" id="dimension-grid"></div><div class="dimension-footer"><button type="button" class="add-dimension-btn" id="add-dimension-btn"><span>+</span> Add Another Area</button><div class="grand-total-row" id="grand-total-row"><span class="grand-total-value" id="grand-total-sf">0 SF</span></div></div></div>
-        <div class="carpet-direction-section" id="carpet-direction-section"><div class="carpet-direction-title">Carpet Direction (relative to room length)</div><div class="carpet-direction-options"><button type="button" class="carpet-direction-btn selected" data-direction="lengthwise"><span class="icon">&#8597;&#65039;</span><span>Lengthwise</span></button><button type="button" class="carpet-direction-btn" data-direction="widthwise"><span class="icon">&#8596;&#65039;</span><span>Widthwise</span></button></div></div>
+        <!-- Room Diagram with Door Markers -->
+            <div class="room-diagram-section" id="roomDiagramSection" style="display:none;">
+              <h4>&#128682; Mark Doors on Room</h4>
+              <div class="room-diagram-container" id="roomDiagramContainer">
+                <svg id="roomDiagramSvg" viewBox="0 0 320 240"></svg>
+                <div class="door-feature-menu" id="doorFeatureMenu">
+                  <button onclick="startDoorPlacement()">&#128682; Add Door</button>
+                  <button onclick="closeDoorMenu()">&#10005; Cancel</button>
+                </div>
+              </div>
+              <div class="door-placement-banner" id="doorPlacementBanner">
+                &#128070; Tap a wall to place a door
+              </div>
+              <div class="door-list" id="doorList"></div>
+            </div>
+	<div class="carpet-direction-section" id="carpet-direction-section"><div class="carpet-direction-title">Carpet Direction (relative to room length)</div><div class="carpet-direction-options"><button type="button" class="carpet-direction-btn selected" data-direction="lengthwise"><span class="icon">&#8597;&#65039;</span><span>Lengthwise</span></button><button type="button" class="carpet-direction-btn" data-direction="widthwise"><span class="icon">&#8596;&#65039;</span><span>Widthwise</span></button></div></div>
         <div class="carpet-calc-preview" id="carpet-calc-preview"><div class="carpet-calc-title"><span>&#129518;</span> Carpet Calculation</div><div class="carpet-calc-grid"><div class="carpet-calc-item"><div class="carpet-calc-value" id="calc-strips">0</div><div class="carpet-calc-label">Strips</div></div><div class="carpet-calc-item"><div class="carpet-calc-value" id="calc-cut-length">0'</div><div class="carpet-calc-label">Cut Length</div></div><div class="carpet-calc-item"><div class="carpet-calc-value" id="calc-linear-ft">0</div><div class="carpet-calc-label">Linear Ft</div></div><div class="carpet-calc-item"><div class="carpet-calc-value" id="calc-sq-yds">0</div><div class="carpet-calc-label">Sq Yds</div></div></div><div class="carpet-calc-formula" id="carpet-calc-formula">--</div></div>
         <div class="measure-section stair-section" id="stair-section"><div class="measure-section-title" id="stair-section-title"><span class="icon">&#129692;</span> Stairs</div><div class="stair-entries" id="stair-entries"><div class="stair-entry" data-stair-idx="0"><div class="stair-input-group"><div class="stair-input-label">Count</div><input type="number" class="stair-input stair-count-input" placeholder="0" min="0"></div><div class="stair-input-group"><div class="stair-input-label">Width (in)</div><input type="number" class="stair-input stair-width-input" placeholder="36" min="0"></div><div class="stair-input-group"><div class="stair-input-label">Tread (in)</div><input type="number" class="stair-input stair-tread-input" placeholder="10" min="0"></div><div class="stair-input-group"><div class="stair-input-label">Riser (in)</div><input type="number" class="stair-input stair-riser-input" placeholder="7" min="0"></div><button type="button" class="stair-remove" data-stair-idx="0">x</button></div></div><div class="stair-btn-row" style="display: flex; gap: 10px; margin-top: 8px;"><button type="button" class="add-stair-btn" id="add-stair-btn" style="flex:1;margin-top:0;"><span>+</span> Add Another Stair</button><button type="button" class="add-stair-btn" id="add-landing-btn" style="flex:1;margin-top:0;background:var(--amber-50);border-color:var(--amber-400);color:#92400e;"><span>+</span> Add Mid Landing</button></div><div class="stair-landing-entries" id="stair-landing-entries" style="display:none;margin-top:12px;"></div><div class="stair-nose-section" id="stair-nose-section" style="display: none;"><div class="stair-nose-row"><span class="stair-nose-label">Stair Nose Length</span><div class="stair-nose-input-wrap"><input type="number" class="stair-input" id="stair-nose-length-input" value="78" min="1" oninput="updateStairNoseCalc()"><span class="stair-nose-unit">in</span></div></div><div class="stair-nose-row"><span class="stair-nose-label">Stair Nose Needed</span><span class="stair-nose-count" id="stair-nose-count">0 pcs</span></div></div><div class="stair-calc-result" id="stair-calc-result" style="display: none;"><div class="stair-calc-value" id="stair-sy-result">0 SY</div><div class="stair-calc-label" id="stair-calc-label">Stairs Carpet Total</div></div></div>
         <div class="carpet-yardage-row" id="carpet-yardage-row"><div><span class="grand-total-label">Carpet Sq Yards</span><div class="carpet-yardage-details" id="carpet-yardage-details">0 strips @ 0' = 0 LF</div></div><span class="grand-total-value" id="carpet-total-sy-modal">0 SY</span></div>
@@ -958,6 +1129,11 @@ var currentRoomPhotos        = [];     // Array of { data, name } for current ro
 var currentStairEntries      = [];     // Stair measurement entries for current room
 var currentLandingEntries    = [];     // Mid landing entries for current room
 var stairAutoAdvanceTimer    = null;   // Timer for stair field auto-advance
+
+// -- Door Marker State -------------------------------------------------------
+var currentDoorMarkers       = [];     // Array of { wall, position } for current room
+var doorPlacementMode        = false;  // True when user is placing a door on diagram
+var DOOR_SEAM_BUFFER_FT      = 0.5;   // 6-inch buffer zone around doors for seam avoidance
 
 // -- Carpet Mode State -------------------------------------------------------
 var isCarpetMode             = false;  // True when primary item is carpet
@@ -1961,6 +2137,7 @@ function openMeasureModal(areaId, areaLabel) {
 
   currentCarpetDirection = (existing && existing.carpetDirection) || "lengthwise";
   currentStairDemoType = (existing && existing.stairDemoType) || "none";
+  currentDoorMarkers = (existing && existing.doors) ? JSON.parse(JSON.stringify(existing.doors)) : [];
 
   // -- Modal title -------------------------------------------------------
   var titleEl = document.getElementById("measure-modal-title");
@@ -2024,6 +2201,13 @@ function openMeasureModal(areaId, areaLabel) {
   var appliancesSection = document.getElementById("appliances-section");
   if (bathroomSection) bathroomSection.style.display = isBathroom ? "block" : "none";
   if (appliancesSection) appliancesSection.style.display = isKitchen ? "block" : "none";
+
+  // -- Room diagram with door markers ------------------------------------
+  var roomDiagramSection = document.getElementById("room-diagram-section");
+  if (roomDiagramSection) {
+    roomDiagramSection.classList.add("show");
+    renderRoomDiagram();
+  }
 
   // -- Carpet direction --------------------------------------------------
   var carpetDirectionSection = document.getElementById("carpet-direction-section");
@@ -2146,6 +2330,113 @@ function updateMeasureProductReminder() {
   }
 }
 
+// -- Room Diagram with Door Markers ------------------------------------------
+/** Render an SVG room diagram showing walls and door markers. */
+function renderRoomDiagram() {
+  var svg = document.getElementById("room-diagram-svg");
+  if (!svg) return;
+  
+  var w = toNum((currentDimensionRows[0] && currentDimensionRows[0].width) || 0);
+  var l = toNum((currentDimensionRows[0] && currentDimensionRows[0].length) || 0);
+  if (w <= 0 || l <= 0) {
+    svg.innerHTML = '<text x="150" y="105" text-anchor="middle" fill="#999" font-size="14">Enter dimensions to see room diagram</text>';
+    return;
+  }
+  
+  var maxW = 260;
+  var maxH = 160;
+  var scale = Math.min(maxW / w, maxH / l);
+  var rw = w * scale;
+  var rh = l * scale;
+  var rx = (300 - rw) / 2;
+  var ry = (200 - rh) / 2;
+  
+  var html = '';
+  html += '<rect x="' + rx + '" y="' + ry + '" width="' + rw + '" height="' + rh
+    + '" fill="#f0f4ff" stroke="#2c5282" stroke-width="2" rx="2"/>';
+  html += '<text x="' + (rx + rw / 2) + '" y="' + (ry - 8) + '" text-anchor="middle" fill="#2c5282" font-size="11">'
+    + w.toFixed(1) + '\'</text>';
+  html += '<text x="' + (rx + rw / 2) + '" y="' + (ry + rh + 16) + '" text-anchor="middle" fill="#2c5282" font-size="11">'
+    + w.toFixed(1) + '\'</text>';
+  html += '<text x="' + (rx - 8) + '" y="' + (ry + rh / 2) + '" text-anchor="middle" fill="#2c5282" font-size="11" transform="rotate(-90,' + (rx - 8) + ',' + (ry + rh / 2) + ')">'
+    + l.toFixed(1) + '\'</text>';
+  html += '<text x="' + (rx + rw + 8) + '" y="' + (ry + rh / 2) + '" text-anchor="middle" fill="#2c5282" font-size="11" transform="rotate(90,' + (rx + rw + 8) + ',' + (ry + rh / 2) + ')">'
+    + l.toFixed(1) + '\'</text>';
+  
+  var wallZone = 20;
+  html += '<rect class="wall-zone" data-wall="top" x="' + rx + '" y="' + (ry - wallZone / 2)
+    + '" width="' + rw + '" height="' + wallZone + '" fill="transparent" style="cursor:pointer"/>';
+  html += '<rect class="wall-zone" data-wall="bottom" x="' + rx + '" y="' + (ry + rh - wallZone / 2)
+    + '" width="' + rw + '" height="' + wallZone + '" fill="transparent" style="cursor:pointer"/>';
+  html += '<rect class="wall-zone" data-wall="left" x="' + (rx - wallZone / 2) + '" y="' + ry
+    + '" width="' + wallZone + '" height="' + rh + '" fill="transparent" style="cursor:pointer"/>';
+  html += '<rect class="wall-zone" data-wall="right" x="' + (rx + rw - wallZone / 2) + '" y="' + ry
+    + '" width="' + wallZone + '" height="' + rh + '" fill="transparent" style="cursor:pointer"/>';
+  
+  currentDoorMarkers.forEach(function(door, di) {
+    var dx, dy;
+    if (door.wall === "top") {
+      dx = rx + door.position * rw;
+      dy = ry;
+    } else if (door.wall === "bottom") {
+      dx = rx + door.position * rw;
+      dy = ry + rh;
+    } else if (door.wall === "left") {
+      dx = rx;
+      dy = ry + door.position * rh;
+    } else {
+      dx = rx + rw;
+      dy = ry + door.position * rh;
+    }
+    html += '<g class="door-marker" data-door-idx="' + di + '" style="cursor:pointer">';
+    html += '<circle cx="' + dx + '" cy="' + dy + '" r="10" fill="#e53e3e" stroke="#fff" stroke-width="2"/>';
+    html += '<text x="' + dx + '" y="' + (dy + 4) + '" text-anchor="middle" fill="#fff" font-size="10">D</text>';
+    html += '</g>';
+  });
+  
+  svg.innerHTML = html;
+  
+  svg.querySelectorAll(".wall-zone").forEach(function(zone) {
+    zone.addEventListener("click", function(e) {
+      if (!doorPlacementMode) return;
+      var wall = zone.dataset.wall;
+      var rect = zone.getBoundingClientRect();
+      var pos;
+      if (wall === "top" || wall === "bottom") {
+        pos = (e.clientX - rect.left) / rect.width;
+      } else {
+        pos = (e.clientY - rect.top) / rect.height;
+      }
+      pos = Math.max(0.05, Math.min(0.95, pos));
+      addDoorToWall(wall, pos);
+    });
+  });
+  
+  svg.querySelectorAll(".door-marker").forEach(function(marker) {
+    marker.addEventListener("click", function() {
+      var idx = parseInt(marker.dataset.doorIdx);
+      removeDoorMarker(idx);
+    });
+  });
+}
+
+/** Add a door marker to a wall at the given position (0-1 ratio). */
+function addDoorToWall(wall, position) {
+  currentDoorMarkers.push({ wall: wall, position: position });
+  doorPlacementMode = false;
+  var btn = document.getElementById("door-add-btn");
+  var hint = document.getElementById("door-hint");
+  if (btn) btn.classList.remove("active");
+  if (hint) hint.classList.remove("show");
+  renderRoomDiagram();
+}
+
+/** Remove a door marker by index. */
+function removeDoorMarker(idx) {
+  currentDoorMarkers.splice(idx, 1);
+  renderRoomDiagram();
+}
+
 // -- Dimension Grid ----------------------------------------------------------
 
 /** Render all dimension rows (width × length = SF) in the modal. */
@@ -2203,7 +2494,9 @@ function bindDimensionRowEvents(container) {
           updateStairsCalc();
         }
 
+	renderRoomDiagram();
         // Auto-advance to length after delay
+
         clearTimeout(dimensionAutoAdvanceTimer);
         if (widthInput.value !== "") {
           dimensionAutoAdvanceTimer = setTimeout(function() {
@@ -2223,6 +2516,7 @@ function bindDimensionRowEvents(container) {
           updateCarpetCalcPreview();
           updateStairsCalc();
         }
+	renderRoomDiagram();
 
         // Auto-advance to next row (or add new row) after delay
         clearTimeout(dimensionAutoAdvanceTimer);
@@ -2251,6 +2545,7 @@ function bindDimensionRowEvents(container) {
           updateCarpetCalcPreview();
           updateStairsCalc();
         }
+	renderRoomDiagram();
       });
     }
 
@@ -2273,6 +2568,7 @@ function bindDimensionRowEvents(container) {
           updateCarpetCalcPreview();
           updateStairsCalc();
         }
+	renderRoomDiagram();
       });
     });
   });
@@ -2417,6 +2713,8 @@ function saveMeasurements() {
   // Notes
   var notesInput = document.getElementById("room-notes-input");
   var notes = notesInput ? notesInput.value.trim() : "";
+  // Door markers
+  var doors = currentDoorMarkers.slice();
 
   // Carpet and stair calculations
   var carpetCalc = isCarpetMode ? updateCarpetCalcPreview() : null;
@@ -2534,6 +2832,131 @@ function updateCarpetMode() {
  * @param {"lengthwise"|"widthwise"} direction - Carpet roll orientation
  * @returns {{ strips, cutLength, linearFeet, squareFeet, squareYards, formula }}
  */
+
+/* &#9472;&#9472; Room Diagram Rendering &#9472;&#9472; */
+  function renderRoomDiagram() {
+    const svg = document.getElementById('roomDiagramSvg');
+    const section = document.getElementById('roomDiagramSection');
+    if (!svg || !section) return;
+
+    const wInput = document.getElementById('measureWidth');
+    const lInput = document.getElementById('measureLength');
+    if (!wInput || !lInput) return;
+
+    const W = parseFloat(wInput.value) || 0;
+    const L = parseFloat(lInput.value) || 0;
+    if (W <= 0 || L <= 0) { section.style.display = 'none'; return; }
+
+    section.style.display = '';
+
+    const pad = 40;
+    const svgW = 320, svgH = 240;
+    const drawW = svgW - pad * 2;
+    const drawH = svgH - pad * 2;
+    const scale = Math.min(drawW / W, drawH / L);
+    const rw = W * scale, rh = L * scale;
+    const rx = (svgW - rw) / 2, ry = (svgH - rh) / 2;
+
+    let html = '';
+    // room fill
+    html += `<rect x="${rx}" y="${ry}" width="${rw}" height="${rh}" class="room-fill"/>`;
+
+    // walls (clickable)
+    const walls = [
+      { id: 'top',    x1: rx,      y1: ry,      x2: rx + rw, y2: ry,      label: `${W}'`, lx: rx + rw/2, ly: ry - 8 },
+      { id: 'bottom', x1: rx,      y1: ry + rh, x2: rx + rw, y2: ry + rh, label: `${W}'`, lx: rx + rw/2, ly: ry + rh + 16 },
+      { id: 'left',   x1: rx,      y1: ry,      x2: rx,      y2: ry + rh, label: `${L}'`, lx: rx - 14, ly: ry + rh/2 },
+      { id: 'right',  x1: rx + rw, y1: ry,      x2: rx + rw, y2: ry + rh, label: `${L}'`, lx: rx + rw + 14, ly: ry + rh/2 }
+    ];
+
+    walls.forEach(w => {
+      const cls = doorPlacementMode ? 'room-wall door-placement-active' : 'room-wall';
+      html += `<line x1="${w.x1}" y1="${w.y1}" x2="${w.x2}" y2="${w.y2}" class="${cls}" data-wall="${w.id}" onclick="handleWallTap('${w.id}')"/>`;
+      html += `<text x="${w.lx}" y="${w.ly}" class="room-label">${w.label}</text>`;
+    });
+
+    // door markers
+    currentDoorMarkers.forEach((d, i) => {
+      let dx, dy;
+      const pos = d.position || 0.5;
+      if (d.wall === 'top')    { dx = rx + rw * pos; dy = ry; }
+      if (d.wall === 'bottom') { dx = rx + rw * pos; dy = ry + rh; }
+      if (d.wall === 'left')   { dx = rx;            dy = ry + rh * pos; }
+      if (d.wall === 'right')  { dx = rx + rw;       dy = ry + rh * pos; }
+      html += `<g class="door-marker" onclick="removeDoorMarker(${i})" transform="translate(${dx},${dy})">`;
+      html += `<circle r="12" fill="#fff" stroke="#dc3545" stroke-width="2"/>`;
+      html += `<text class="door-marker-icon" text-anchor="middle" dominant-baseline="central" font-size="14">&#128682;</text>`;
+      html += `</g>`;
+    });
+
+    // add button (center)
+    if (!doorPlacementMode) {
+      html += `<g class="room-add-btn" onclick="openDoorMenu(evt)">`;
+      html += `<circle cx="${rx + rw/2}" cy="${ry + rh/2}" r="18"/>`;
+      html += `<text x="${rx + rw/2}" y="${ry + rh/2}">+</text>`;
+      html += `</g>`;
+    }
+
+    svg.innerHTML = html;
+    renderDoorList();
+  }
+
+  function renderDoorList() {
+    const el = document.getElementById('doorList');
+    if (!el) return;
+    if (currentDoorMarkers.length === 0) { el.innerHTML = ''; return; }
+    el.innerHTML = currentDoorMarkers.map((d, i) =>
+      `<div class="door-list-item">
+        <span>&#128682; ${d.wall.charAt(0).toUpperCase() + d.wall.slice(1)} wall (${Math.round((d.position || 0.5) * 100)}%)</span>
+        <span class="remove-door" onclick="removeDoorMarker(${i})">&#10005;</span>
+      </div>`
+    ).join('');
+  }
+
+function openDoorMenu(evt) {
+    const menu = document.getElementById('doorFeatureMenu');
+    if (!menu) return;
+    const container = document.getElementById('roomDiagramContainer');
+    const rect = container.getBoundingClientRect();
+    const x = (evt ? evt.clientX - rect.left : rect.width / 2) - 60;
+    const y = (evt ? evt.clientY - rect.top : rect.height / 2) - 20;
+    menu.style.left = Math.max(0, Math.min(x, rect.width - 140)) + 'px';
+    menu.style.top = Math.max(0, y) + 'px';
+    menu.classList.add('active');
+  }
+
+  function closeDoorMenu() {
+    const menu = document.getElementById('doorFeatureMenu');
+    if (menu) menu.classList.remove('active');
+    doorPlacementMode = false;
+    document.getElementById('doorPlacementBanner').classList.remove('active');
+    renderRoomDiagram();
+  }
+
+  function startDoorPlacement() {
+    const menu = document.getElementById('doorFeatureMenu');
+    if (menu) menu.classList.remove('active');
+    doorPlacementMode = true;
+    document.getElementById('doorPlacementBanner').classList.add('active');
+    renderRoomDiagram();
+  }
+
+  function handleWallTap(wallId) {
+    if (!doorPlacementMode) return;
+    currentDoorMarkers.push({ wall: wallId, position: 0.5 });
+    doorPlacementMode = false;
+    document.getElementById('doorPlacementBanner').classList.remove('active');
+    renderRoomDiagram();
+    showToast('&#128682; Door added to ' + wallId + ' wall');
+  }
+
+  function removeDoorMarker(index) {
+    if (doorPlacementMode) return;
+    currentDoorMarkers.splice(index, 1);
+    renderRoomDiagram();
+    showToast('Door removed');
+  }
+
 function calculateCarpetYardage(roomWidth, roomLength, direction) {
   if (!direction) direction = "lengthwise";
   if (!roomWidth || !roomLength || roomWidth <= 0 || roomLength <= 0) {
@@ -3008,7 +3431,7 @@ function cutRoomFromInventory(req, leftovers, seamAllowanceFt, pmLengthFt, patte
   result.seamCount = stripsNeeded > 1 ? stripsNeeded - 1 : 0;
   result.seamPositions = [];
   
-  if (stripsNeeded > 1) {
+ if (stripsNeeded > 1) {
     // Seams fall between strips, measured from entrance
     // Full strips stack from entrance; fill strip at far wall
     for (var sm = 1; sm < stripsNeeded; sm++) {
@@ -3026,6 +3449,31 @@ function cutRoomFromInventory(req, leftovers, seamAllowanceFt, pmLengthFt, patte
         distanceFromEntrance: seamDistFromEntrance,
         distanceFromEntranceFtIn: toFtInStr(seamDistFromEntrance)
       });
+    }
+  }
+  
+  // &#9472;&#9472; Door-seam conflict detection (Tier 2) &#9472;&#9472;
+  result.doorConflicts = [];
+  var roomDoors = (roomMeasurements[req.roomId] && roomMeasurements[req.roomId].doors) || [];
+  if (roomDoors.length > 0 && result.seamPositions.length > 0) {
+    for (var di = 0; di < roomDoors.length; di++) {
+      var door = roomDoors[di];
+      // Only check doors on walls perpendicular to seam lines
+      // Seams run parallel to strip length; doors on "top"/"bottom" walls cross seams
+      if (door.wall === "top" || door.wall === "bottom") {
+        var doorPosFt = door.position * widthToCover; // position is 0-1 ratio
+        for (var si = 0; si < result.seamPositions.length; si++) {
+          var seamDist = result.seamPositions[si].distanceFromEntrance;
+          if (Math.abs(seamDist - doorPosFt) < DOOR_SEAM_BUFFER_FT) {
+            result.doorConflicts.push({
+              doorWall: door.wall,
+              doorPositionFt: doorPosFt,
+              seamNumber: result.seamPositions[si].seamNumber,
+              seamPositionFt: seamDist
+            });
+          }
+        }
+      }
     }
   }
   
@@ -6404,7 +6852,14 @@ function bindMeasureModalEvents() {
   bind("add-stair-btn", addStairEntry);
   bind("add-landing-btn", addLandingEntry);
   bindStairDemoEvents();
-
+  // Door marker button
+  bind("door-add-btn", function() {
+    doorPlacementMode = !doorPlacementMode;
+    var btn = document.getElementById("door-add-btn");
+    var hint = document.getElementById("door-hint");
+    if (btn) btn.classList.toggle("active", doorPlacementMode);
+    if (hint) hint.classList.toggle("show", doorPlacementMode);
+  });
   // Carpet direction buttons
   document.querySelectorAll(".carpet-direction-btn").forEach(function(btn) {
     btn.addEventListener("click", function() {
