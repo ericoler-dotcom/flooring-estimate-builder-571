@@ -1203,7 +1203,7 @@ var areaGroups = [
   {
     id: "hallways_zone", label: "Hallways", sortOrder: 3,
     items: [
-      { id: "all_hallways", label: "All Hallways", hasClosets: true, sortOrder: 1 },
+      { id: "hallways", label: "Hallways", hasClosets: true, sortOrder: 1 },
       { id: "alcove", label: "Alcove", hasAlcoves: true, sortOrder: 2 },
       { id: "left_hall", label: "Left Hall", hasClosets: true, sortOrder: 3 },
       { id: "right_hall", label: "Right Hall", hasClosets: true, sortOrder: 4 },
@@ -1667,7 +1667,7 @@ async function loadResources() {
   try {
     var xml = await qbQuery(
       DBID_RESOURCES,
-      "{'3'.GT.'0'}",
+      "{'18'.EX.'Supplier'}AND{'20'.XEX.'1'}",
       [RES.RID, RES.NAME, RES.SURCHARGE, RES.B2B_LOCK].join("."),
       "slist." + RES.NAME
     );
@@ -1813,10 +1813,9 @@ async function loadAsmRows(assemblyId) {
     });
   });
 
-  // Load group details (child items) for each group item
-  for (var gi_i = 0; gi_i < groupItems.length; gi_i++) {
-    var gi = groupItems[gi_i];
-    var detailXml = await qbQuery(
+  // Load group details (child items) for each group item — IN PARALLEL
+  var detailPromises = groupItems.map(function(gi) {
+    return qbQuery(
       DBID_GROUP_DETAILS,
       "{'6'.EX.'" + gi.giRid + "'}AND{'14'.EX.'0'}",
       [
@@ -1826,7 +1825,18 @@ async function loadAsmRows(assemblyId) {
         "20"  // fid 20 = "is default" flag
       ].join("."),
       "slist.1"
-    );
+    ).catch(function(err) {
+      console.error("Error loading details for group item " + gi.giRid + ":", err);
+      return null;
+    });
+  });
+
+  var detailResults = await Promise.all(detailPromises);
+
+  for (var gi_i = 0; gi_i < groupItems.length; gi_i++) {
+    var gi = groupItems[gi_i];
+    var detailXml = detailResults[gi_i];
+    if (!detailXml) continue;
 
     detailXml.querySelectorAll("record").forEach(function(gr) {
       var gg = function(fid) { var node = gr.querySelector('f[id="' + fid + '"]'); return node ? node.textContent.trim() : ""; };
@@ -1855,10 +1865,6 @@ async function loadAsmRows(assemblyId) {
       gi.groupDetails.push(gd);
     });
   }
-
-  groupItemsCache[cacheKey] = groupItems;
-  return JSON.parse(JSON.stringify(groupItems));
-}
 
 
 /* =============================================================================
@@ -1972,12 +1978,14 @@ async function autoSelectAssemblyByCategory(category) {
   if (bestMatch) {
     assemblySelect.value = bestMatch;
     assemblySelect.classList.add("has-selection");
-    showLoad("Loading assembly...");
     try {
       assemblyGroupItems = await loadAsmRows(bestMatch);
-      await renderAssemblyGrid();
-    } catch (err) { }
-    hideLoad();
+      if (currentStep === 3) {
+        await renderAssemblyGrid();
+      }
+    } catch (err) {
+      console.error("Auto-select assembly error:", err);
+    }
   }
 }
 
@@ -2506,7 +2514,7 @@ function openMeasureModal(areaId, areaLabel) {
       roomDiagramSection.classList.remove("show");
     }
   }
-}
+ }
 
 /** Calculate seam positions in feet from left edge (lengthwise) or top edge (widthwise). */
 function calculateRoomSeamPositions() {
@@ -7400,28 +7408,6 @@ function bindMeasureModalEvents() {
       updateCarpetCalcPreview();
       updateStairsCalc();
       renderRoomDiagram();
-    });
-  });
-}
-
-/** Bind stair demo type buttons. */
-function bindStairDemoEvents() {
-  document.querySelectorAll(".stair-demo-btn").forEach(function(btn) {
-    btn.addEventListener("click", function() {
-      var wasSelected = btn.classList.contains("selected");
-      
-      // Deselect all stair demo buttons
-      document.querySelectorAll(".stair-demo-btn").forEach(function(b) { 
-        b.classList.remove("selected"); 
-      });
-      
-      // Toggle the clicked one
-      if (!wasSelected) {
-        btn.classList.add("selected");
-        currentStairDemoType = btn.dataset.stairDemo;
-      } else {
-        currentStairDemoType = "none";
-      }
     });
   });
 }
