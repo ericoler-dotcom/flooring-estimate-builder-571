@@ -2002,6 +2002,7 @@ function clearPrimaryItem() {
   if (primarySelected) primarySelected.classList.remove("show");
   var carpetInfoCard = document.getElementById("carpet-info-card");
   if (carpetInfoCard) carpetInfoCard.classList.remove("show");
+  hideCarpetDiagram();
 }
 
 
@@ -3383,7 +3384,8 @@ function updateCarpetMode() {
     if (pmWidthInput) pmWidthInput.value = patternMatchWidth;
     if (pmLengthInput) pmLengthInput.value = patternMatchLength;
     var seamInput = document.getElementById("carpet-seam-allowance-input");
-    if (seamInput) seamInput.value = SEAM_ALLOWANCE_IN;  } else {
+    if (seamInput) seamInput.value = SEAM_ALLOWANCE_IN;  
+    } else {
     isCarpetMode = false;
     carpetWidth = DEFAULT_CARPET_WIDTH_FT;
     patternMatchWidth = 0;
@@ -3391,6 +3393,7 @@ function updateCarpetMode() {
 
     var carpetInfoCard2 = document.getElementById("carpet-info-card");
     if (carpetInfoCard2) carpetInfoCard2.classList.remove("show");
+    hideCarpetDiagram();
   }
 
   // Toggle SY stat visibility
@@ -3410,12 +3413,6 @@ function updateCarpetMode() {
  * @returns {{ strips, cutLength, linearFeet, squareFeet, squareYards, formula }}
  */
 
-  function removeDoorMarker(index) {
-    if (doorPlacementMode) return;
-    currentDoorMarkers.splice(index, 1);
-    renderRoomDiagram();
-    showToast('Door removed');
-  }
 
 function calculateCarpetYardage(roomWidth, roomLength, direction) {
   if (!direction) direction = "lengthwise";
@@ -4142,27 +4139,56 @@ function renderCarpetCuttingDiagram(plan) {
   var currentY = rollStartY + 35;
   
   // Draw room cuts
+  var roomsLabeled = {};
   roomCuts.forEach(function(cut, idx) {
     if (!roomColorMap[cut.roomId]) {
       roomColorMap[cut.roomId] = roomColors[colorIdx % roomColors.length];
       colorIdx++;
     }
-    var color = roomColorMap[cut.roomId];
+   var color = roomColorMap[cut.roomId];
     var heightPx = Math.max(cut.cutLength * SCALE, 50);
+    var roomDetail = plan.roomDetails[cut.roomId];
+    var isFirstStripOfRoom = !roomsLabeled[cut.roomId];
+    if (isFirstStripOfRoom) roomsLabeled[cut.roomId] = true;
     
-    // Main cut rectangle
-    svg += '<rect x="' + rollStartX + '" y="' + currentY + '" width="' + rollWidthPx + '" height="' + heightPx + '" ';
+    // Coverage vs waste width calculation
+    var coverWidthPx = rollWidthPx;
+    var wasteWidthPx = 0;
+    if (cut.coverWidth && cut.coverWidth < carpetWidth) {
+      coverWidthPx = cut.coverWidth * SCALE;
+      wasteWidthPx = rollWidthPx - coverWidthPx;
+    }
+    
+    // Main cut rectangle - coverage area
+    svg += '<rect x="' + rollStartX + '" y="' + currentY + '" width="' + (wasteWidthPx > 0 ? coverWidthPx : rollWidthPx) + '" height="' + heightPx + '" ';
     svg += 'fill="' + color + '" fill-opacity="0.3" stroke="' + color + '" stroke-width="2" rx="3"/>';
+    
+    // Waste area in yellow (unused carpet width on fill strips)
+    if (wasteWidthPx > 0) {
+      svg += '<rect x="' + (rollStartX + coverWidthPx) + '" y="' + currentY + '" width="' + wasteWidthPx + '" height="' + heightPx + '" ';
+      svg += 'fill="#fbbf24" fill-opacity="0.35" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,3"/>';
+      svg += '<text x="' + (rollStartX + coverWidthPx + wasteWidthPx / 2) + '" y="' + (currentY + heightPx / 2 + 4) + '" text-anchor="middle" font-size="9" fill="#92400e" font-weight="600">';
+      svg += (carpetWidth - cut.coverWidth).toFixed(1) + '\' waste</text>';
+    }
     
     // Room label
     svg += '<text x="' + (rollStartX + 8) + '" y="' + (currentY + 18) + '" font-size="13" font-weight="600" fill="' + color + '">';
     svg += escHtml(cut.roomName) + ' - Strip ' + cut.stripNumber + '</text>';
     
-    // Dimensions
-    svg += '<text x="' + (rollStartX + 8) + '" y="' + (currentY + 34) + '" font-size="11" fill="#6b7280">';
-    svg += cut.cutLength.toFixed(1) + '\' x ' + toFtInStr(carpetWidth);
-    if (cut.fromLeftover) svg += ' (from leftover)';
-    svg += '</text>';
+    // Room dimensions on first strip, cut dimensions on subsequent strips
+    if (isFirstStripOfRoom && roomDetail && !roomDetail.isStair) {
+      svg += '<text x="' + (rollStartX + 8) + '" y="' + (currentY + 34) + '" font-size="11" font-weight="600" fill="#374151">';
+      svg += 'Room: ' + roomDetail.width.toFixed(1) + '\' \u00d7 ' + roomDetail.length.toFixed(1) + '\' = ' + (roomDetail.width * roomDetail.length).toFixed(0) + ' SF</text>';
+      svg += '<text x="' + (rollStartX + 8) + '" y="' + (currentY + 48) + '" font-size="10" fill="#6b7280">';
+      svg += 'Cut: ' + cut.cutLength.toFixed(1) + '\' x ' + toFtInStr(carpetWidth);
+      if (cut.fromLeftover) svg += ' (from leftover)';
+      svg += '</text>';
+    } else {
+      svg += '<text x="' + (rollStartX + 8) + '" y="' + (currentY + 34) + '" font-size="11" fill="#6b7280">';
+      svg += cut.cutLength.toFixed(1) + '\' x ' + toFtInStr(carpetWidth);
+      if (cut.fromLeftover) svg += ' (from leftover)';
+      svg += '</text>';
+    }
 
     // Check if this strip generates leftover that fits stairs
     if (!cut.fromLeftover && stairCuts.length > 0) {
