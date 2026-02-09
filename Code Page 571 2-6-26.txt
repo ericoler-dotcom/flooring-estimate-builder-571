@@ -1866,6 +1866,10 @@ async function loadAsmRows(assemblyId) {
     });
   }
 
+  groupItemsCache[cacheKey] = groupItems;
+  return JSON.parse(JSON.stringify(groupItems));
+}
+
 
 /* =============================================================================
  * 6. PRODUCT SELECTION (Step 1)
@@ -2316,6 +2320,9 @@ function onClosetOptionSelected(areaId, areaLabel, closetOpt) {
     }
   }
 }
+
+
+
 
 
 /* =============================================================================
@@ -3045,7 +3052,7 @@ function bindDimensionRowEvents(container) {
           }, DIMENSION_AUTO_ADVANCE_MS);
         }
       });
-      widthInput.addEventListener("focus", function() { clearTimeout(dimensionAutoAdvanceTimer); });
+      widthInput.addEventListener("focus", function() { clearTimeout(dimensionAutoAdvanceTimer); clearTimeout(diagramIdleScrollTimer); });
     }
 
     if (lengthInput) {
@@ -3091,7 +3098,7 @@ function bindDimensionRowEvents(container) {
           }
         }
       });
-      lengthInput.addEventListener("focus", function() { clearTimeout(dimensionAutoAdvanceTimer); });
+      lengthInput.addEventListener("focus", function() { clearTimeout(dimensionAutoAdvanceTimer); clearTimeout(diagramIdleScrollTimer); });
     }
 
     if (removeBtn) {
@@ -7574,7 +7581,6 @@ var lastEditedComment = null;
     });
   });
 }
-
 // -- Application Entry Point -------------------------------------------------
 document.addEventListener("DOMContentLoaded", init);
 
